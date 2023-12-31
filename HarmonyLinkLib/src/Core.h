@@ -1,4 +1,4 @@
-﻿// copyright notice here
+﻿// Copyright (C) 2023  Jordon Brooks
 
 #pragma once
 

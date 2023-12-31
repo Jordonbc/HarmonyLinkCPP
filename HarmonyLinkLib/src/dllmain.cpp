@@ -1,4 +1,6 @@
-﻿#include <windows.h>
+﻿// Copyright (C) 2023  Jordon Brooks
+
+#include <windows.h>
 
 // Standard DLL entry point
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {

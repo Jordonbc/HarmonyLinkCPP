@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Copyright (C) 2023  Jordon Brooks
+
+#pragma once
 
 #include "Core.h"
 

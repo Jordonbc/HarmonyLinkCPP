@@ -6,5 +6,7 @@
 !.gitignore
 
 !CMakeLists.txt
+!license
+
 !HarmonyLinkLib/**
 !HarmonyLinkTest/**

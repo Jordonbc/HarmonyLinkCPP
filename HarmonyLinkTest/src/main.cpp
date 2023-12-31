@@ -1,4 +1,6 @@
-﻿#include <iostream>
+﻿// Copyright (C) 2023  Jordon Brooks
+
+#include <iostream>
 
 #include "HarmonyLink.h"
 
