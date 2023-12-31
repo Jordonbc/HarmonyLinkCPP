@@ -7,6 +7,7 @@
 
 !CMakeLists.txt
 !license
+!readme.md
 
 !HarmonyLinkLib/**
 !HarmonyLinkTest/**
