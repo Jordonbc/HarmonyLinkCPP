@@ -1,0 +1,10 @@
+# Setup .gitignore as a whitelist
+*
+!*/
+
+# track this file
+!.gitignore
+
+!CMakeLists.txt
+!HarmonyLinkLib/**
+!HarmonyLinkTest/**
