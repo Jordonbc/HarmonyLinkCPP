@@ -2,7 +2,7 @@
 *
 !*/
 
-#build/**
+build/**
 
 # track this file
 !.gitignore
