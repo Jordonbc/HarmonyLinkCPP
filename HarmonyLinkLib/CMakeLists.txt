@@ -5,15 +5,20 @@ project(HarmonyLinkLib)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Automatically add all .cpp and .h/.hpp files in the src directory
-file(GLOB_RECURSE LIB_SOURCES "src/*.cpp")
-file(GLOB_RECURSE LIB_HEADERS "src/*.h" "src/*.hpp")
+# Automatically add all .cpp files in the src directory
+file(GLOB_RECURSE LIB_SOURCES "src/*.cpp" "src/*.h")
+file(GLOB_RECURSE LIB_INCLUDES "include/*.h")
 
 # Add library
-add_library(HarmonyLinkLib SHARED ${LIB_SOURCES} ${LIB_HEADERS})
+add_library(HarmonyLinkLib SHARED ${LIB_SOURCES} ${LIB_INCLUDES})
 
-# Specify include directories
-target_include_directories(HarmonyLinkLib PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}/include" "${PROJECT_SOURCE_DIR}/src")
+target_include_directories(HarmonyLinkLib 
+    PRIVATE 
+        "${PROJECT_SOURCE_DIR}/src"
+    PUBLIC 
+        "${PROJECT_BINARY_DIR}"
+        "${PROJECT_SOURCE_DIR}/include"
+)
 
 target_compile_definitions(HarmonyLinkLib PRIVATE HARMONYLINKLIB_EXPORTS)
 

@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.10)
 project(HarmonyLinkProject)
 
+if(WIN32)
+  add_definitions(-DBUILD_WINDOWS)
+endif()
+
+if(UNIX AND NOT APPLE)
+  add_definitions(-DBUILD_LINUX)
+endif()
+
 # Set global output directories for all build types
 foreach(TYPE IN ITEMS DEBUG RELEASE)
     string(TOUPPER ${TYPE} TYPE_UPPER)

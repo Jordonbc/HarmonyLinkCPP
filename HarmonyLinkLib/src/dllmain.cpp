@@ -1,5 +1,6 @@
 ﻿// Copyright (C) 2023  Jordon Brooks
 
+#if BUILD_WINDOWS
 #include <windows.h>
 
 // Standard DLL entry point
@@ -20,3 +21,5 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
     }
     return TRUE; // Successful DLL_PROCESS_ATTACH.
 }
+
+#endif
