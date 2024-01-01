@@ -7,6 +7,7 @@ build/**
 # track this file
 !.gitignore
 !.gitattributes
+!.gitmodules
 
 !CMakeLists.txt
 !license
