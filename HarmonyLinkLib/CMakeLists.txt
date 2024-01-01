@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
-project(HarmonyLinkLib)
+project(HarmonyLinkLib VERSION 0.0.1)
+
+configure_file(include/Version.h.in Version.generated.h)
 
 # Specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -7,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Automatically add all .cpp files in the src directory
 file(GLOB_RECURSE LIB_SOURCES "src/*.cpp" "src/*.h")
-file(GLOB_RECURSE LIB_INCLUDES "include/*.h")
+file(GLOB_RECURSE LIB_INCLUDES "include/*.h" "include/*.h.in")
 
 # Add library
 add_library(HarmonyLinkLib SHARED ${LIB_SOURCES} ${LIB_INCLUDES})
@@ -21,6 +23,10 @@ target_include_directories(HarmonyLinkLib
 )
 
 target_compile_definitions(HarmonyLinkLib PRIVATE HARMONYLINKLIB_EXPORTS)
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_definitions(YourTarget PRIVATE "DEBUG_MODE")
+endif()
 
 # Set output directories for all build types
 foreach(TYPE IN ITEMS DEBUG RELEASE)

@@ -1,5 +1,14 @@
 ﻿// Copyright (C) 2023  Jordon Brooks
 
+#include <iostream>
+#include "Version.h"
+
+
+void HarmonyLinkInit()
+{
+    std::cout << "HarmonyLink V" << version::ToString() << " Copyright (C) 2023  Jordon Brooks";
+}
+
 #if BUILD_WINDOWS
 #include <windows.h>
 
@@ -8,18 +17,30 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
     switch (fdwReason) {
     case DLL_PROCESS_ATTACH:
         // Code to run when the DLL is loaded
+            HarmonyLinkInit();
             break;
     case DLL_THREAD_ATTACH:
         // Code to run when a thread is created during the DLL's lifetime
-            break;
     case DLL_THREAD_DETACH:
         // Code to run when a thread ends normally.
-            break;
     case DLL_PROCESS_DETACH:
         // Code to run when the DLL is unloaded
-            break;
+    default:
+        break;
     }
     return TRUE; // Successful DLL_PROCESS_ATTACH.
 }
+#endif
 
+#if BUILD_UNIX
+__attribute__((constructor))
+static void onLibraryLoad() {
+    // Code to run when the library is loaded
+    HarmonyLinkInit();
+}
+
+__attribute__((destructor))
+static void onLibraryUnload() {
+    // Code to run when the library is unloaded
+}
 #endif
