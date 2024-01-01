@@ -6,6 +6,7 @@ build/**
 
 # track this file
 !.gitignore
+!.gitattributes
 
 !CMakeLists.txt
 !license
