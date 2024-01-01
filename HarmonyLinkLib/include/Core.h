@@ -4,8 +4,12 @@
 
 
 // Use a preprocessor definition to switch between export and import declarations
-#ifdef HARMONYLINKLIB_EXPORTS
-#define HARMONYLINKLIB_API __declspec(dllexport)
+#ifdef _WIN32
+    #ifdef HARMONYLINKLIB_EXPORTS
+        #define HARMONYLINKLIB_API __declspec(dllexport)
+    #else
+        #define HARMONYLINKLIB_API __declspec(dllimport)
+    #endif
 #else
-#define HARMONYLINKLIB_API __declspec(dllimport)
+    #define HARMONYLINKLIB_API
 #endif
