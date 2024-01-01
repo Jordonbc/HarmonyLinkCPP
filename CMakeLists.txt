@@ -20,3 +20,6 @@ endforeach()
 # Add the library and executable directories
 add_subdirectory(HarmonyLinkLib)
 add_subdirectory(HarmonyLinkTest)
+
+# Set HarmonyLinkTest as the default startup project
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT HarmonyLinkTest)
