@@ -6,11 +6,16 @@
 #include "Platform/Unix/Linux/LinuxUtilities.h"
 #endif
 
-std::shared_ptr<IPlatformUtilities> PlatformUtilitiesHelper::INSTANCE = nullptr;
+static std::shared_ptr<IPlatformUtilities> INSTANCE = nullptr;
 
 PlatformUtilitiesHelper::PlatformUtilitiesHelper()
 {
-    reset_mock_platform_utility();
+    #if BUILD_WINDOWS
+        INSTANCE = std::make_shared<WindowsUtilities>();
+    #elif BUILD_LINUX
+        INSTANCE = std::make_shared<LinuxUtilities>();
+        // ... other platform checks
+    #endif
 }
 
 PlatformUtilitiesHelper::~PlatformUtilitiesHelper()
@@ -18,17 +23,7 @@ PlatformUtilitiesHelper::~PlatformUtilitiesHelper()
     INSTANCE = nullptr;
 }
 
-std::shared_ptr<IPlatformUtilities> PlatformUtilitiesHelper::GetPlatformUtility()
+std::shared_ptr<IPlatformUtilities> PlatformUtilitiesHelper::get_platform_utility()
 {
     return INSTANCE;
-}
-
-void PlatformUtilitiesHelper::reset_mock_platform_utility()
-{
-#if BUILD_WINDOWS
-    INSTANCE = std::make_shared<WindowsUtilities>();
-#elif BUILD_LINUX
-    INSTANCE = std::make_shared<LinuxUtilities>();
-    // ... other platform checks
-#endif
 }

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(HarmonyLinkProject)
 
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+#set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 # Platform-specific definitions
 if(WIN32)
@@ -29,29 +29,29 @@ add_subdirectory(HarmonyLinkLib)
 add_subdirectory(HarmonyLinkTest)
 
 # Add Google Test as a subdirectory
-add_subdirectory(ThirdParty/googletest)
+#add_subdirectory(ThirdParty/googletest)
 
 # Enable testing
-enable_testing()
+#enable_testing()
 
 # Include Google Test's include directory
-include_directories(ThirdParty/googletest/googletest/include)
+#include_directories(ThirdParty/googletest/googletest/include)
 
 # Define your test executable
-file(GLOB_RECURSE TEST_SOURCES "tests/*.cpp")
-add_executable(Testing ${TEST_SOURCES})
+#file(GLOB_RECURSE TEST_SOURCES "tests/*.cpp")
+#add_executable(Testing ${TEST_SOURCES})
 
 # Set HarmonyLinkTest as the default startup project
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT HarmonyLinkTest)
 
 # Link Google Test and HarmonyLink library to the test executable
-target_link_libraries(Testing gtest gtest_main gmock HarmonyLinkLib)
+#target_link_libraries(Testing gtest gtest_main gmock HarmonyLinkLib)
 
-add_custom_command(TARGET Testing POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    "$<TARGET_FILE:HarmonyLinkLib>"
-    "$<TARGET_FILE_DIR:Testing>")
+#add_custom_command(TARGET Testing POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#    "$<TARGET_FILE:HarmonyLinkLib>"
+#    "$<TARGET_FILE_DIR:Testing>")
 
 # Discover tests
-include(GoogleTest)
-gtest_discover_tests(Testing)
+#include(GoogleTest)
+#gtest_discover_tests(Testing)

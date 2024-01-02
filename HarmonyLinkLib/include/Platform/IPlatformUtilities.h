@@ -6,7 +6,10 @@ public:
     virtual ~IPlatformUtilities() = default;
 
     // General OS-level functions
-    virtual bool isRunningUnderWine() = 0;
+    virtual bool isRunningUnderWine()
+    {
+        return false;
+    }
 
     // Add more virtual functions for other OS interactions here
 };

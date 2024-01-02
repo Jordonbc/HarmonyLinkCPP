@@ -12,7 +12,7 @@ void HarmonyLink::exampleFunction()
 
 bool HarmonyLink::isRunningUnderWine()
 {
-    const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::GetPlatformUtility();
+    const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::get_platform_utility();
 
     if (!PlatformUtilities)
     {
