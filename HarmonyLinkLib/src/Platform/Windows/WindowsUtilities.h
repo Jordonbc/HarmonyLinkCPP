@@ -5,8 +5,5 @@
 class WindowsUtilities : public IPlatformUtilities
 {
 public:
-    bool isRunningUnderWine()
-    {
-        return false;
-    }
+    bool isRunningUnderWine() override;
 };
