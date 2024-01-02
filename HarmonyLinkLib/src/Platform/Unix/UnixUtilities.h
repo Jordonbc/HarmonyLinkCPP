@@ -4,7 +4,7 @@
 
 class UnixUtilities : public IPlatformUtilities {
 public:
-    bool isRunningUnderWine() override;
+    bool is_running_under_wine() override;
     
     // Implementation for other Unix/Linux-specific functions
 };

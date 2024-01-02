@@ -4,13 +4,7 @@
 #include "Platform/IPlatformUtilities.h"
 #include "Platform/PlatformUtilitiesHelper.h"
 
-
-void HarmonyLink::exampleFunction()
-{
-    std::cout << "Hello from HarmonyLink!\n";
-}
-
-bool HarmonyLink::isRunningUnderWine()
+bool HarmonyLink::is_running_under_wine()
 {
     const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::get_platform_utility();
 
@@ -19,5 +13,5 @@ bool HarmonyLink::isRunningUnderWine()
         return false;
     }
 
-    return PlatformUtilities->isRunningUnderWine();
+    return PlatformUtilities->is_running_under_wine();
 }

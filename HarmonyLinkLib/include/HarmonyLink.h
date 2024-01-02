@@ -7,6 +7,5 @@
 class HARMONYLINKLIB_API HarmonyLink
 {
 public:
-    static void exampleFunction();
-    static bool isRunningUnderWine();
+    static bool is_running_under_wine();
 };

@@ -5,5 +5,7 @@
 class WindowsUtilities : public IPlatformUtilities
 {
 public:
-    bool isRunningUnderWine() override;
+    bool is_running_under_wine() override;
+
+    battery get_battery_status() override;
 };
