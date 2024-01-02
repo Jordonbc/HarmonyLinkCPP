@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Battery.h"
 
 class IPlatformUtilities {
 public:
@@ -10,6 +11,8 @@ public:
     {
         return false;
     }
+
+    virtual battery get_battery_status() = 0;
 
     // Add more virtual functions for other OS interactions here
 };
