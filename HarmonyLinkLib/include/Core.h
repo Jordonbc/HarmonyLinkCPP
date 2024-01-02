@@ -2,10 +2,9 @@
 
 #pragma once
 
-
 // Use a preprocessor definition to switch between export and import declarations
 #ifdef _WIN32
-    #ifdef HARMONYLINKLIB_EXPORTS_EXPORTS
+    #ifdef HARMONYLINKLIB_EXPORTS
         #define HARMONYLINKLIB_API __declspec(dllexport)
     #else
         #define HARMONYLINKLIB_API __declspec(dllimport)

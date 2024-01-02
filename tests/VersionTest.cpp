@@ -2,7 +2,7 @@
 #include "Version.h" // Adjust this path to point to your version.h file
 
 TEST(Versioning, ToString) {
-    const std::string versionString = version::ToString();
+    const std::string versionString = version::ToString().c_str();
     ASSERT_FALSE(versionString.empty());
 }
 

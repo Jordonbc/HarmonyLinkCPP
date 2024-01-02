@@ -20,7 +20,7 @@ foreach(TYPE IN ITEMS DEBUG RELEASE)
     string(TOUPPER ${TYPE} TYPE_UPPER)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${TYPE_UPPER} "${CMAKE_BINARY_DIR}/bin/${TYPE}")
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${TYPE_UPPER} "${CMAKE_BINARY_DIR}/lib/${TYPE}")
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${TYPE_UPPER} "${CMAKE_BINARY_DIR}/bin/${TYPE}")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${TYPE_UPPER} "${CMAKE_BINARY_DIR}/archive/${TYPE}")
 endforeach()
 
 # Add the library and executable directories
@@ -42,7 +42,7 @@ file(GLOB_RECURSE TEST_SOURCES "tests/*.cpp")
 add_executable(Testing ${TEST_SOURCES})
 
 # Set HarmonyLinkTest as the default startup project
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Testing)
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT HarmonyLinkTest)
 
 # Link Google Test and HarmonyLink library to the test executable
 target_link_libraries(Testing gtest gtest_main HarmonyLinkLib)

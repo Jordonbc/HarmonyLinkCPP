@@ -1,4 +1,4 @@
-﻿// Copyright (C) 2023  Jordon Brooks
+﻿// Copyright (C) 2024  Jordon Brooks
 
 #include <iostream>
 #include "Version.h"
@@ -6,7 +6,7 @@
 
 void HarmonyLinkInit()
 {
-    std::cout << "HarmonyLink V" << version::ToString() << " Copyright (C) 2023  Jordon Brooks";
+    std::cout << "HarmonyLink V" << version::ToString().c_str() << " Copyright (C) 2023 Jordon Brooks\n";
 }
 
 #if BUILD_WINDOWS

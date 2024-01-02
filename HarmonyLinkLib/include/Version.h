@@ -1,29 +1,42 @@
-// Copyright (C) 2023  Jordon Brooks
+// Copyright (C) 2024  Jordon Brooks
 #pragma once
 
-#include <string>
-#include <sstream>
+#include "Core.h"
 #include <Version.generated.h>
 
-class version
+#include "FString.h"
+
+class HARMONYLINKLIB_API version
 {
-    std::string build_timestamp = std::string();
-    std::string git_branch = std::string();
-    std::string git_commit_timestamp = std::string();
-    std::string version_pre;
+public:
+    version() = default;
+    
+    static FString ToString()
+    {
+        return HARMONYLINK_VERSION;
+    }
+
+    static FString get_build_timestamp()
+    {
+        return {__TIMESTAMP__};
+    }
+
+    static FString get_git_branch()
+    {
+        return {GIT_BRANCH_NAME};
+    }
+
+    static FString get_git_commit_timestamp()
+    {
+        return {GIT_COMMIT_TIMESTAMP};
+    }
 
     static bool is_debug()
     {
-    #ifdef DEBUG_MODE
+        #ifdef DEBUG_MODE
             return true;
-    #else
+        #else
             return false;
-    #endif
-    }
-
-public:
-    static std::string ToString()
-    {
-        return HARMONYLINK_VERSION;
+        #endif
     }
 };

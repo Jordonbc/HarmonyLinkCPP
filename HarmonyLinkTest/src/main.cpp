@@ -9,7 +9,6 @@
 int main()
 {
     std::cout << "Hello from exe!" << '\n';
-    HarmonyLink::exampleFunction();
 
     const bool isWine = HarmonyLink::isRunningUnderWine();
 

@@ -1,9 +1,9 @@
 ﻿#include "HarmonyLink.h"
 #include <iostream>
 
-#if BUILD_WINDOWS
-#include <windows.h>
-#endif
+#include "Platform/IPlatformUtilities.h"
+#include "Platform/PlatformUtilitiesHelper.h"
+
 
 void HarmonyLink::exampleFunction()
 {
@@ -12,14 +12,12 @@ void HarmonyLink::exampleFunction()
 
 bool HarmonyLink::isRunningUnderWine()
 {
-#if BUILD_WINDOWS
-    bool HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "wine_get_version") != NULL;
+    const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::GetPlatformUtility();
 
-    if (!HasFound)
-        HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "proton_get_version") != NULL;
-    
-    return HasFound;
-#else
-    return false;
-#endif
+    if (!PlatformUtilities)
+    {
+        return false;
+    }
+
+    return PlatformUtilities->isRunningUnderWine();
 }
