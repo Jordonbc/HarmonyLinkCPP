@@ -47,6 +47,11 @@ set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT H
 # Link Google Test and HarmonyLink library to the test executable
 target_link_libraries(Testing gtest gtest_main HarmonyLinkLib)
 
+add_custom_command(TARGET Testing POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "$<TARGET_FILE:HarmonyLinkLib>"
+    "$<TARGET_FILE_DIR:Testing>")
+
 # Discover tests
 include(GoogleTest)
 gtest_discover_tests(Testing)
