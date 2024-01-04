@@ -7,5 +7,9 @@ class WindowsUtilities : public IPlatformUtilities
 public:
     bool is_running_under_wine() override;
     FBattery get_battery_status() override;
-    FDistroInfo get_os_release() override;
+    
+    FDistroInfo get_os_release() override
+    {
+        return get_os_info("/etc/os-release");
+    }
 };

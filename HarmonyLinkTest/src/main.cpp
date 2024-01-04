@@ -4,7 +4,7 @@
 #include <chrono>
 #include <thread>
 
-#include "..\..\HarmonyLinkLib\include\FBattery.h"
+#include "FBattery.h"
 #include "HarmonyLink.h"
 
 int main()

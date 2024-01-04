@@ -14,5 +14,8 @@ public:
 
     virtual FDistroInfo get_os_release() = 0;
 
+protected:
+    static FDistroInfo get_os_info(const std::string& FileLocation);
+
     // Add more virtual functions for other OS interactions here
 };

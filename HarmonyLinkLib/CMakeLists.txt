@@ -27,9 +27,61 @@ configure_file(include/Version.h.in Version.generated.h)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Automatically add all .cpp files in the src directory
-file(GLOB_RECURSE LIB_SOURCES "src/*.cpp" "src/*.h")
-file(GLOB_RECURSE LIB_INCLUDES "include/*.h" "include/*.h.in")
+# Explicitly list source files
+set(COMMON_SOURCES
+    "src/Platform/IPlatformUtilities.cpp"
+    "src/Platform/PlatformUtilitiesHelper.cpp"
+    "src/HarmonyLink.cpp"
+    "src/Version.cpp"
+    "src/dllmain.cpp"
+)
+
+# Explicitly list include files
+set(COMMON_INCLUDES
+    "include/core.h"
+    "include/FBattery.h"
+    "include/FDistroInfo.h"
+    "include/FString.h"
+    "include/HarmonyLink.h"
+    "include/Version.h"
+    "src/Platform/IPlatformUtilities.h"
+    "src/Platform/PlatformUtilitiesHelper.h"
+    "src/Platform/PlatformUtilitiesHelper.h"
+)
+
+set(WINDOWS_SOURCES
+    "src/Platform/Windows/WindowsUtilities.cpp"
+)
+
+set(WINDOWS_INCLUDES
+    "src/Platform/Windows/WindowsUtilities.h"
+)
+
+set(LINUX_SOURCES
+    "src/Platform/Unix/Linux/LinuxUtilities.cpp"
+    "src/Platform/Unix/UnixUtilities.cpp"
+)
+
+set(LINUX_INCLUDES
+    "src/Platform/Unix/Linux/LinuxUtilities.h"
+    "src/Platform/Unix/UnixUtilities.h"
+)
+
+# Platform-specific definitions
+if(WIN32)
+    message(STATUS "Compiling for Windows...")
+    list(APPEND LIB_SOURCES ${COMMON_SOURCES} ${WINDOWS_SOURCES})
+    list(APPEND LIB_INCLUDES ${COMMON_INCLUDES} ${WINDOWS_INCLUDES})
+elseif(UNIX)
+  message(STATUS "Compiling for Unix-based systems...")
+  if(APPLE)
+    message(FATAL_ERROR "Mac OS is currently unsupported.")
+  else()
+    message(STATUS "Compiling for Linux...")
+    list(APPEND LIB_SOURCES ${COMMON_SOURCES} ${LINUX_SOURCES})
+    list(APPEND LIB_INCLUDES ${COMMON_INCLUDES} ${LINUX_INCLUDES})
+  endif()
+endif()
 
 # Add library
 add_library(HarmonyLinkLib SHARED ${LIB_SOURCES} ${LIB_INCLUDES})
