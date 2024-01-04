@@ -5,5 +5,5 @@
 class LinuxUtilities : public UnixUtilities {
 public:
     // Implementation for other Linux-specific functions
-    battery get_battery_status() override;
+    FBattery get_battery_status() override;
 };

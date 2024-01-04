@@ -2,10 +2,13 @@
 
 #pragma once
 
-#include "Core.h"  // Replace with actual API export macro
-#include <cstring>
 #include <memory>
+#include <cstring>
+#include <string>
 
+#include "Core.h"  // Replace with actual API export macro
+
+class FStringImpl;
 /**
  * @file FString.h
  * @brief FString Class - Custom String Management for DLL Export
@@ -69,6 +72,12 @@ public:
     // Move constructor
     FString(FString&& other) noexcept : data_(other.data_) {
         other.data_ = nullptr;
+    }
+
+    FString(const std::string& str) {
+        const size_t len = str.length();
+        data_ = new char[len + 1];
+        memcpy(data_, str.c_str(), len + 1);
     }
 
     // Move assignment operator

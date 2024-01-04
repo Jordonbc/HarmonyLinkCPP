@@ -4,26 +4,30 @@
 #include "Platform/IPlatformUtilities.h"
 #include "Platform/PlatformUtilitiesHelper.h"
 
-bool HarmonyLink::is_running_under_wine()
+static std::shared_ptr<IPlatformUtilities> PlatformUtilities = nullptr;
+
+HarmonyLink::HarmonyLink()
 {
-    const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
+    PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
 
     if (!PlatformUtilities)
     {
-        return false;
+        std::cout << "Failed to get platform utilities!\n";
+        return;
     }
 
-    return PlatformUtilities->is_running_under_wine();
+    is_wine_ = PlatformUtilities->is_running_under_wine();
+    distro_info_ = PlatformUtilities->get_os_release();
 }
 
-battery HarmonyLink::get_battery_status()
+FBattery HarmonyLink::get_battery_status()
 {
-    const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
-
-    if (!PlatformUtilities)
+    FBattery battery = FBattery();
+    
+    if (PlatformUtilities)
     {
-        return {};
+        battery = PlatformUtilities->get_battery_status();
     }
 
-    return PlatformUtilities->get_battery_status();
+    return battery;
 }

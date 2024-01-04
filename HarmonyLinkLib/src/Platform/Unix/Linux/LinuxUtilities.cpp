@@ -4,9 +4,9 @@
 #include <fstream>
 #include <string>
 
-battery LinuxUtilities::get_battery_status()
+FBattery LinuxUtilities::get_battery_status()
 {
-    battery result = {};
+    FBattery result = {};
     result.has_battery = std::filesystem::exists("/sys/class/power_supply/BAT0");
 
     // If a battery is present, read more details

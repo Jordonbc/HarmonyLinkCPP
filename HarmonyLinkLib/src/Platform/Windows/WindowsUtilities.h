@@ -6,6 +6,6 @@ class WindowsUtilities : public IPlatformUtilities
 {
 public:
     bool is_running_under_wine() override;
-
-    battery get_battery_status() override;
+    FBattery get_battery_status() override;
+    FDistroInfo get_os_release() override;
 };

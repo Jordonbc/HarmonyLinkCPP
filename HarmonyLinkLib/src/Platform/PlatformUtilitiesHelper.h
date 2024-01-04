@@ -1,11 +1,10 @@
 ﻿#pragma once
 
-#include "Core.h"
 #include <memory>
 
 #include "Platform/IPlatformUtilities.h"
 
-class HARMONYLINKLIB_API PlatformUtilitiesHelper
+class PlatformUtilitiesHelper
 {
 public:
     PlatformUtilitiesHelper();
