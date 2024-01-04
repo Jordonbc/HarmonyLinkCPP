@@ -6,7 +6,7 @@
 
 bool HarmonyLink::is_running_under_wine()
 {
-    const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::get_platform_utility();
+    const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
 
     if (!PlatformUtilities)
     {
@@ -14,4 +14,16 @@ bool HarmonyLink::is_running_under_wine()
     }
 
     return PlatformUtilities->is_running_under_wine();
+}
+
+battery HarmonyLink::get_battery_status()
+{
+    const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
+
+    if (!PlatformUtilities)
+    {
+        return {};
+    }
+
+    return PlatformUtilities->get_battery_status();
 }

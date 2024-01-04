@@ -6,24 +6,29 @@
 #include "Platform/Unix/Linux/LinuxUtilities.h"
 #endif
 
-static std::shared_ptr<IPlatformUtilities> INSTANCE = nullptr;
+PlatformUtilitiesHelper* PlatformUtilitiesHelper::INSTANCE = nullptr;
 
 PlatformUtilitiesHelper::PlatformUtilitiesHelper()
 {
+    if (INSTANCE && INSTANCE != this)
+    {
+        delete INSTANCE;
+        INSTANCE = this;   
+    }
     #if BUILD_WINDOWS
-        INSTANCE = std::make_shared<WindowsUtilities>();
+        helper = std::make_shared<WindowsUtilities>();
     #elif BUILD_LINUX
-        INSTANCE = std::make_shared<LinuxUtilities>();
+        helper = std::make_shared<LinuxUtilities>();
         // ... other platform checks
     #endif
 }
 
 PlatformUtilitiesHelper::~PlatformUtilitiesHelper()
 {
-    INSTANCE = nullptr;
+    delete INSTANCE;
 }
 
 std::shared_ptr<IPlatformUtilities> PlatformUtilitiesHelper::get_platform_utility()
 {
-    return INSTANCE;
+    return helper;
 }
