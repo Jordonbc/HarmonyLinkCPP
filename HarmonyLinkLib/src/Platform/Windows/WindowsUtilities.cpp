@@ -1,21 +1,16 @@
 ﻿#include "WindowsUtilities.h"
 
-#ifdef BUILD_WINDOWS
 #include <Windows.h>
-#endif
 
 bool WindowsUtilities::isRunningUnderWine()
 {
-#if BUILD_WINDOWS
+    std::cout << "WINDOWS\n";
     bool HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "wine_get_version") != NULL;
 
     if (!HasFound)
         HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "proton_get_version") != NULL;
         
     return HasFound;
-#else
-    return false;
-#endif
 }
 
 battery WindowsUtilities::get_battery_status()
@@ -26,7 +21,7 @@ battery WindowsUtilities::get_battery_status()
     if (GetSystemPowerStatus(&status)) {
         result.has_battery = status.BatteryFlag != 128; // 128 indicates no battery
         result.is_connected_to_power = status.ACLineStatus == 1;
-        result.battery_percent = status.BatteryLifePercent;
+        result.battery_percent = result.has_battery ? status.BatteryLifePercent : 0;
     } else {
         // In case of any error, you may choose to set default values
         result.has_battery = false;

@@ -7,10 +7,7 @@ public:
     virtual ~IPlatformUtilities() = default;
 
     // General OS-level functions
-    virtual bool isRunningUnderWine()
-    {
-        return false;
-    }
+    virtual bool isRunningUnderWine() = 0;
 
     virtual battery get_battery_status() = 0;
 

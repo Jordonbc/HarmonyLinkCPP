@@ -12,7 +12,7 @@ void HarmonyLink::exampleFunction()
 
 bool HarmonyLink::isRunningUnderWine()
 {
-    const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::get_platform_utility();
+    const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
 
     if (!PlatformUtilities)
     {
@@ -20,4 +20,16 @@ bool HarmonyLink::isRunningUnderWine()
     }
 
     return PlatformUtilities->isRunningUnderWine();
+}
+
+battery HarmonyLink::get_battery_status()
+{
+    const std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
+
+    if (!PlatformUtilities)
+    {
+        return {};
+    }
+
+    return PlatformUtilities->get_battery_status();
 }
