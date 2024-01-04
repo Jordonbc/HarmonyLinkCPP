@@ -38,7 +38,7 @@ set(COMMON_SOURCES
 
 # Explicitly list include files
 set(COMMON_INCLUDES
-    "include/core.h"
+    "include/Core.h"
     "include/FBattery.h"
     "include/FDistroInfo.h"
     "include/FString.h"
