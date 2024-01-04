@@ -11,7 +11,7 @@ int main()
 {
     std::cout << "Hello from exe!" << '\n';
 
-    const bool isWine = HarmonyLink::is_running_under_wine();
+    const bool isWine = HarmonyLink::get_is_wine();
 
     const char* test = isWine ? "is" : "isn't";
     
@@ -21,7 +21,8 @@ int main()
 
     if (isWine)
     {
-        HarmonyLink::test_uname();
+        const FDistroInfo distro_info = HarmonyLink::get_distro_info();
+        printf("Distro Name: %s\n", distro_info.pretty_name.c_str());
     }
 
     // Wait for 5 seconds
