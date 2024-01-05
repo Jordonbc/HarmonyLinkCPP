@@ -1,6 +1,19 @@
 cmake_minimum_required(VERSION 3.10)
 project(HarmonyLinkProject)
 
+# Check the build type and display a message accordingly
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "Building for Debug")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    message(STATUS "Building for Release")
+elseif(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
+    message(STATUS "Building for MinSizeRel")
+elseif(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+    message(STATUS "Building for RelWithDebInfo")
+else()
+    message(STATUS "Building with unspecified build type")
+endif()
+
 #set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 # Platform-specific definitions
