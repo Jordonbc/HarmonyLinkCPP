@@ -4,7 +4,7 @@
 
 #include "Core.h"
 #include "FBattery.h"
-#include "FOSInfo.h"
+#include "FOSVerInfo.h"
 #include "FString.h"
 
 class IPlatformUtilities;
@@ -14,7 +14,7 @@ class HARMONYLINKLIB_API HarmonyLink
 public:
     static bool get_is_wine();
 
-    static FOSInfo get_os_info();
+    static FOSVerInfo get_os_version();
     
     static FBattery get_battery_status();
 };

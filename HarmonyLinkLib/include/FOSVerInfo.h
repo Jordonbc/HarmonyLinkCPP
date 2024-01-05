@@ -1,9 +1,8 @@
 ﻿#pragma once
-#include <string>
 
 #include "FString.h"
 
-struct FOSInfo {
+struct FOSVerInfo {
     // 'name' represents the operating system's name, e.g., "Ubuntu" in Linux or "Windows" in Windows systems.
     FString name;
     

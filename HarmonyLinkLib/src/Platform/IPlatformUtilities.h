@@ -1,9 +1,7 @@
 ﻿#pragma once
 #include "FBattery.h"
-#include <unordered_map>
 
-#include "FOSInfo.h"
-#include "FString.h"
+#include "FOSVerInfo.h"
 
 class IPlatformUtilities {
 public:
@@ -15,10 +13,7 @@ public:
 
     virtual FBattery get_battery_status() = 0;
 
-    virtual FOSInfo get_os_release() = 0;
-
-protected:
-    static FOSInfo get_os_info(const std::string& file_location);
+    virtual FOSVerInfo get_os_version() = 0;
 
     // Add more virtual functions for other OS interactions here
 };

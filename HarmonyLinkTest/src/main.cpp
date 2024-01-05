@@ -5,7 +5,7 @@
 #include <thread>
 
 #include "FBattery.h"
-#include "FOSInfo.h"
+#include "FOSVerInfo.h"
 #include "HarmonyLink.h"
 
 int main()
@@ -21,7 +21,7 @@ int main()
     HarmonyLink::get_battery_status().to_string();
 
     
-    const FOSInfo distro_info = HarmonyLink::get_os_info();
+    const FOSVerInfo distro_info = HarmonyLink::get_os_version();
     printf("pretty_name: %s\n", distro_info.pretty_name.c_str());
 
     // Wait for 5 seconds

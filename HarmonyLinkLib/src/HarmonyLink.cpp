@@ -22,9 +22,9 @@ bool HarmonyLink::get_is_wine()
     return PlatformUtilities->is_running_under_wine();
 }
 
-FOSInfo HarmonyLink::get_os_info()
+FOSVerInfo HarmonyLink::get_os_version()
 {
-    FOSInfo NewOSInfo = FOSInfo();
+    FOSVerInfo NewOSInfo = FOSVerInfo();
     if (!PlatformUtilities)
     {
         PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
@@ -36,7 +36,7 @@ FOSInfo HarmonyLink::get_os_info()
         return NewOSInfo;
     }
 
-    return PlatformUtilities->get_os_release();
+    return PlatformUtilities->get_os_version();
 }
 
 FBattery HarmonyLink::get_battery_status()

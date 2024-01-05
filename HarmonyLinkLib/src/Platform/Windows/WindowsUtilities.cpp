@@ -3,9 +3,11 @@
 #include <sstream>
 #include <Windows.h>
 
+#include "Platform/WineUtilities.h"
+
 WindowsUtilities::WindowsUtilities()
 {
-    is_wine_ = detect_wine_presence();
+    is_wine_ = WineUtilities::detect_wine_presence();
 }
 
 FBattery WindowsUtilities::get_battery_status()
@@ -27,21 +29,21 @@ FBattery WindowsUtilities::get_battery_status()
     return result;
 }
 
-FOSInfo WindowsUtilities::get_os_release()
+FOSVerInfo WindowsUtilities::get_os_version()
 {
     if (is_wine_)
     {
-        return get_os_info("Z:/etc/os-release");
+        return WineUtilities::get_linux_info();
     }
 
-    FOSInfo os_info;
-    OSVERSIONINFOEX OSVersionInfo;
-    ZeroMemory(&OSVersionInfo, sizeof(OSVERSIONINFOEX));
-    OSVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+    FOSVerInfo os_version;
+    OSVERSIONINFOEX os_version_info;
+    ZeroMemory(&os_version_info, sizeof(OSVERSIONINFOEX));
+    os_version_info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
-    if (!GetVersionEx((OSVERSIONINFO *)&OSVersionInfo)) {
+    if (!GetVersionEx((OSVERSIONINFO *)&os_version_info)) {
         // Handle error if needed
-        return os_info;
+        return os_version;
     }
 
     HKEY h_key;
@@ -53,28 +55,17 @@ FOSInfo WindowsUtilities::get_os_release()
         dwSize = sizeof(szProductName);
         if (RegQueryValueEx(h_key, TEXT("ProductName"), nullptr, &dwType, reinterpret_cast<LPBYTE>(szProductName), &dwSize) == ERROR_SUCCESS)
         {
-            os_info.pretty_name = szProductName;
+            os_version.pretty_name = szProductName;
         }
         RegCloseKey(h_key);
     }
 
     std::stringstream version;
-    version << OSVersionInfo.dwMajorVersion << "." << OSVersionInfo.dwMinorVersion;
-    os_info.version_id = version.str();
+    version << os_version_info.dwMajorVersion << "." << os_version_info.dwMinorVersion;
+    os_version.version_id = version.str();
 
-    os_info.name = "Windows";
-    os_info.version = OSVersionInfo.dwBuildNumber; // Build number as the version
+    os_version.name = "Windows";
+    os_version.version = os_version_info.dwBuildNumber; // Build number as the version
 
-    return os_info;
-}
-
-bool WindowsUtilities::detect_wine_presence()
-{
-    std::cout << "Detecting wine...\n";
-    bool HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "wine_get_version") != NULL;
-
-    if (!HasFound)
-        HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "proton_get_version") != NULL;
-        
-    return HasFound;
+    return os_version;
 }

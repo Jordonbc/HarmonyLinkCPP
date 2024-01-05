@@ -34,19 +34,21 @@ set(COMMON_SOURCES
     "src/HarmonyLink.cpp"
     "src/Version.cpp"
     "src/dllmain.cpp"
+    "src/Platform/WineUtilities.cpp"
 )
 
 # Explicitly list include files
 set(COMMON_INCLUDES
     "include/Core.h"
     "include/FBattery.h"
-    "include/FOSInfo.h"
+    "include/FOSVerInfo.h"
     "include/FString.h"
     "include/HarmonyLink.h"
     "include/Version.h"
     "src/Platform/IPlatformUtilities.h"
     "src/Platform/PlatformUtilitiesHelper.h"
     "src/Platform/PlatformUtilitiesHelper.h"
+    "src/Platform/WineUtilities.h"
 )
 
 set(WINDOWS_SOURCES

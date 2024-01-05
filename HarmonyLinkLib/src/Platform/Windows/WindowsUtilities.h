@@ -13,9 +13,7 @@ public:
     
     FBattery get_battery_status() override;
     
-    FOSInfo get_os_release() override;
+    FOSVerInfo get_os_version() override;
 protected:
-    bool is_wine_ = false;
-
-    static bool detect_wine_presence();
+    inline static bool is_wine_ = false;
 };
