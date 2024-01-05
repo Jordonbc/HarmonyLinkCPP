@@ -1,10 +1,13 @@
 ﻿#pragma once
 #include "FBattery.h"
-#include "FDistroInfo.h"
+#include <unordered_map>
+
+#include "FOSInfo.h"
+#include "FString.h"
 
 class IPlatformUtilities {
 public:
-    IPlatformUtilities() = default;
+    IPlatformUtilities();
     virtual ~IPlatformUtilities() = default;
 
     // General OS-level functions
@@ -12,10 +15,10 @@ public:
 
     virtual FBattery get_battery_status() = 0;
 
-    virtual FDistroInfo get_os_release() = 0;
+    virtual FOSInfo get_os_release() = 0;
 
 protected:
-    static FDistroInfo get_os_info(const std::string& FileLocation);
+    static FOSInfo get_os_info(const std::string& file_location);
 
     // Add more virtual functions for other OS interactions here
 };

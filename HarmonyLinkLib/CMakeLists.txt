@@ -40,7 +40,7 @@ set(COMMON_SOURCES
 set(COMMON_INCLUDES
     "include/Core.h"
     "include/FBattery.h"
-    "include/FDistroInfo.h"
+    "include/FOSInfo.h"
     "include/FString.h"
     "include/HarmonyLink.h"
     "include/Version.h"

@@ -5,6 +5,7 @@
 #include <thread>
 
 #include "FBattery.h"
+#include "FOSInfo.h"
 #include "HarmonyLink.h"
 
 int main()
@@ -19,11 +20,9 @@ int main()
 
     HarmonyLink::get_battery_status().to_string();
 
-    if (isWine)
-    {
-        const FDistroInfo distro_info = HarmonyLink::get_distro_info();
-        printf("Distro Name: %s\n", distro_info.pretty_name.c_str());
-    }
+    
+    const FOSInfo distro_info = HarmonyLink::get_os_info();
+    printf("pretty_name: %s\n", distro_info.pretty_name.c_str());
 
     // Wait for 5 seconds
     std::this_thread::sleep_for(std::chrono::seconds(5));

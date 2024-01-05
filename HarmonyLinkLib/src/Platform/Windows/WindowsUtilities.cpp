@@ -1,19 +1,11 @@
 ﻿#include "WindowsUtilities.h"
 
-#include <fstream>
 #include <sstream>
-#include <unordered_map>
 #include <Windows.h>
 
-bool WindowsUtilities::is_running_under_wine()
+WindowsUtilities::WindowsUtilities()
 {
-    std::cout << "WINDOWS\n";
-    bool HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "wine_get_version") != NULL;
-
-    if (!HasFound)
-        HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "proton_get_version") != NULL;
-        
-    return HasFound;
+    is_wine_ = detect_wine_presence();
 }
 
 FBattery WindowsUtilities::get_battery_status()
@@ -33,4 +25,56 @@ FBattery WindowsUtilities::get_battery_status()
     }
 
     return result;
+}
+
+FOSInfo WindowsUtilities::get_os_release()
+{
+    if (is_wine_)
+    {
+        return get_os_info("Z:/etc/os-release");
+    }
+
+    FOSInfo os_info;
+    OSVERSIONINFOEX OSVersionInfo;
+    ZeroMemory(&OSVersionInfo, sizeof(OSVERSIONINFOEX));
+    OSVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+
+    if (!GetVersionEx((OSVERSIONINFO *)&OSVersionInfo)) {
+        // Handle error if needed
+        return os_info;
+    }
+
+    HKEY h_key;
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"), 0, KEY_READ, &h_key) == ERROR_SUCCESS)
+    {
+        DWORD dwSize;
+        DWORD dwType;
+        char szProductName[256];
+        dwSize = sizeof(szProductName);
+        if (RegQueryValueEx(h_key, TEXT("ProductName"), nullptr, &dwType, reinterpret_cast<LPBYTE>(szProductName), &dwSize) == ERROR_SUCCESS)
+        {
+            os_info.pretty_name = szProductName;
+        }
+        RegCloseKey(h_key);
+    }
+
+    std::stringstream version;
+    version << OSVersionInfo.dwMajorVersion << "." << OSVersionInfo.dwMinorVersion;
+    os_info.version_id = version.str();
+
+    os_info.name = "Windows";
+    os_info.version = OSVersionInfo.dwBuildNumber; // Build number as the version
+
+    return os_info;
+}
+
+bool WindowsUtilities::detect_wine_presence()
+{
+    std::cout << "Detecting wine...\n";
+    bool HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "wine_get_version") != NULL;
+
+    if (!HasFound)
+        HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "proton_get_version") != NULL;
+        
+    return HasFound;
 }

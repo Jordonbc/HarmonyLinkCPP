@@ -5,11 +5,17 @@
 class WindowsUtilities : public IPlatformUtilities
 {
 public:
-    bool is_running_under_wine() override;
+    WindowsUtilities();
+    bool is_running_under_wine() override
+    {
+        return is_wine_;
+    }
+    
     FBattery get_battery_status() override;
     
-    FDistroInfo get_os_release() override
-    {
-        return get_os_info("/etc/os-release");
-    }
+    FOSInfo get_os_release() override;
+protected:
+    bool is_wine_ = false;
+
+    static bool detect_wine_presence();
 };

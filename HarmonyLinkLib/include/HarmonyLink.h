@@ -4,27 +4,17 @@
 
 #include "Core.h"
 #include "FBattery.h"
-#include "FDistroInfo.h"
+#include "FOSInfo.h"
+#include "FString.h"
 
 class IPlatformUtilities;
 
 class HARMONYLINKLIB_API HarmonyLink
 {
 public:
-    HarmonyLink();
-    static bool get_is_wine()
-    {
-        return is_wine_;
-    }
+    static bool get_is_wine();
 
-    static FDistroInfo& get_distro_info()
-    {
-        return distro_info_;
-    }
+    static FOSInfo get_os_info();
     
     static FBattery get_battery_status();
-
-private:
-    inline static bool is_wine_ = false;
-    inline static FDistroInfo distro_info_;
 };

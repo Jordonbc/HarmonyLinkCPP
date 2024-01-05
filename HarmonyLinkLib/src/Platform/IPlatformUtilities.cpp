@@ -4,17 +4,22 @@
 #include <sstream>
 #include <unordered_map>
 
-FDistroInfo IPlatformUtilities::get_os_info(const std::string& FileLocation)
+IPlatformUtilities::IPlatformUtilities()
 {
-    FDistroInfo distroInfo;
-    if (!FileLocation.empty())
+    std::cout << "Creating new instance of IPlatformUtilities.\n";
+}
+
+FOSInfo IPlatformUtilities::get_os_info(const std::string& file_location)
+{
+    FOSInfo os_info;
+    if (!file_location.empty())
     {
         std::cout << "File location is invalid\n";
-        return distroInfo;
+        return {};
     }
     
-    std::ifstream file(FileLocation);
-    std::unordered_map<std::string, std::string> keyToValueMap;
+    std::ifstream file(file_location);
+    std::unordered_map<FString, FString> Hashmap;
 
     if (file) {
         std::string line;
@@ -37,7 +42,7 @@ FDistroInfo IPlatformUtilities::get_os_info(const std::string& FileLocation)
                         value = value.substr(1, value.length() - 2);
                     }
 
-                    keyToValueMap[key] = value;
+                    Hashmap[key] = value;
                 }
             }
         }
@@ -45,12 +50,21 @@ FDistroInfo IPlatformUtilities::get_os_info(const std::string& FileLocation)
     }
 
     // Now you can access the values using the keys:
-    distroInfo.name = keyToValueMap["NAME"];
-    distroInfo.version = keyToValueMap["VERSION"];
-    distroInfo.id = keyToValueMap["ID"];
-    distroInfo.version_id = keyToValueMap["VERSION_ID"];
-    distroInfo.version_codename = keyToValueMap["VERSION_CODENAME"];
-    distroInfo.pretty_name = keyToValueMap["PRETTY_NAME"];
+    os_info.name = Hashmap["NAME"];
+    os_info.id = Hashmap["ID"];
+    os_info.version_id = Hashmap["VERSION_ID"];
+    os_info.version_codename = Hashmap["VERSION_CODENAME"];
+    os_info.pretty_name = Hashmap["PRETTY_NAME"];
 
-    return distroInfo;
+    try {
+        os_info.version = std::stoi(Hashmap["VERSION"].c_str());
+    } catch (const std::invalid_argument& ia) {
+        std::cerr << "Invalid argument: " << ia.what() << '\n';
+        // Handle the error, perhaps by setting a default value or leaving the field unchanged
+    } catch (const std::out_of_range& oor) {
+        std::cerr << "Out of Range error: " << oor.what() << '\n';
+        // Handle the error, perhaps by setting a default value or leaving the field unchanged
+    }
+
+    return os_info;
 }

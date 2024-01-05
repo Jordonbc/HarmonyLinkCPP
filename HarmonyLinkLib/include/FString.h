@@ -8,7 +8,6 @@
 
 #include "Core.h"  // Replace with actual API export macro
 
-class FStringImpl;
 /**
  * @file FString.h
  * @brief FString Class - Custom String Management for DLL Export
@@ -58,6 +57,10 @@ public:
         memcpy(data_, other.data_, len + 1);
     }
 
+    ~FString() {
+        delete[] data_;
+    }
+
     // Copy assignment operator
     FString& operator=(const FString& other) {
         if (this != &other) {
@@ -67,6 +70,30 @@ public:
             memcpy(data_, other.data_, len + 1);
         }
         return *this;
+    }
+
+    // Concatenation operator for FString objects
+    FString operator+(const FString& other) const {
+        size_t thisLen = strlen(this->data_);
+        size_t otherLen = strlen(other.data_);
+        char* concatenated = new char[thisLen + otherLen + 1];
+
+        memcpy(concatenated, this->data_, thisLen);
+        memcpy(concatenated + thisLen, other.data_, otherLen + 1);
+
+        FString result(concatenated);
+        delete[] concatenated;
+        return result;
+    }
+
+    // Concatenation operator for const char* 
+    FString operator+(const char* other) const {
+        return *this + FString(other);
+    }
+
+    // Friend function to allow concatenation with const char* on the left-hand side
+    friend FString operator+(const char* lhs, const FString& rhs) {
+        return FString(lhs) + rhs;
     }
 
     // Move constructor
@@ -90,8 +117,23 @@ public:
         return *this;
     }
 
-    ~FString() {
-        delete[] data_;
+    bool operator==(const FString& other) const {
+        return strcmp(data_, other.data_) == 0;
+    }
+
+    // Method to get a lowercase version of the string
+    static FString to_lower(FString& from)
+    {
+        for (size_t i = 0; i < strlen(from.data_); ++i) {
+            from.data_[i] = static_cast<char>(std::tolower(static_cast<unsigned char>(from.data_[i])));
+        }
+        return from;
+    }
+
+    // Overloaded static method to handle const char*
+    static FString to_lower(const char* from) {
+        FString temp_string(from); // Create an FString from const char*
+        return to_lower(temp_string); // Reuse the existing to_lower method
     }
 
     const char* c_str() const {
@@ -101,3 +143,20 @@ public:
 private:
     char* data_ = nullptr;
 };
+
+namespace std {
+    template<>
+    struct hash<FString> {
+        size_t operator()(const FString& s) const {
+            size_t hashValue = 5381;  // Starting value recommended by the djb2 algorithm
+            const char* str = s.c_str();
+
+            for (size_t i = 0; str[i] != '\0'; ++i) {
+                hashValue = ((hashValue << 5) + hashValue) + static_cast<unsigned char>(str[i]);
+                // Equivalent to hashValue * 33 + str[i]
+            }
+
+            return hashValue;
+        }
+    };
+}

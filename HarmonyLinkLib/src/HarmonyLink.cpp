@@ -6,18 +6,37 @@
 
 static std::shared_ptr<IPlatformUtilities> PlatformUtilities = nullptr;
 
-HarmonyLink::HarmonyLink()
+bool HarmonyLink::get_is_wine()
 {
-    PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
+    if (!PlatformUtilities)
+    {
+        PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
+    }
 
     if (!PlatformUtilities)
     {
         std::cout << "Failed to get platform utilities!\n";
-        return;
+        return false;
     }
 
-    is_wine_ = PlatformUtilities->is_running_under_wine();
-    distro_info_ = PlatformUtilities->get_os_release();
+    return PlatformUtilities->is_running_under_wine();
+}
+
+FOSInfo HarmonyLink::get_os_info()
+{
+    FOSInfo NewOSInfo = FOSInfo();
+    if (!PlatformUtilities)
+    {
+        PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
+    }
+
+    if (!PlatformUtilities)
+    {
+        std::cout << "Failed to get platform utilities!\n";
+        return NewOSInfo;
+    }
+
+    return PlatformUtilities->get_os_release();
 }
 
 FBattery HarmonyLink::get_battery_status()
