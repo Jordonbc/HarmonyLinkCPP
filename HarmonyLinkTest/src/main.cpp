@@ -10,7 +10,7 @@
 
 int main()
 {
-    std::cout << "Hello from exe!" << '\n';
+    std::cout << "Hello, World!" << '\n';
 
     const bool isWine = HarmonyLink::get_is_wine();
 

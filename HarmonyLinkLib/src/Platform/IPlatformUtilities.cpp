@@ -12,7 +12,7 @@ IPlatformUtilities::IPlatformUtilities()
 FOSInfo IPlatformUtilities::get_os_info(const std::string& file_location)
 {
     FOSInfo os_info;
-    if (!file_location.empty())
+    if (file_location.empty())
     {
         std::cout << "File location is invalid\n";
         return {};
