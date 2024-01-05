@@ -5,7 +5,7 @@
 #include <sstream>
 #include <unordered_map>
 #include <filesystem>
-#include "Harmonylink.h"
+#include "HarmonyLink.h"
 
 #ifdef BUILD_WINDOWS
 #include <windows.h>
@@ -13,7 +13,7 @@
 
 FBattery WineUtilities::get_battery_status()
 {
-    std::string append = "";
+    std::string append;
     if (HarmonyLink::get_is_wine())
     {
         append = "Z:";
@@ -41,7 +41,7 @@ FBattery WineUtilities::get_battery_status()
 
 FOSVerInfo WineUtilities::get_linux_info()
 {
-    std::string append = "";
+    std::string append;
     if (HarmonyLink::get_is_wine())
     {
         append = "Z:";

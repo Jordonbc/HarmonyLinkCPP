@@ -5,7 +5,6 @@
 #include "Core.h"
 #include "FBattery.h"
 #include "FOSVerInfo.h"
-#include "FString.h"
 
 class IPlatformUtilities;
 
