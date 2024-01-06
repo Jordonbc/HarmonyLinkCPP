@@ -7,9 +7,6 @@
 class PlatformUtilitiesHelper
 {
 public:
-    PlatformUtilitiesHelper();
-    virtual ~PlatformUtilitiesHelper();
-
     static PlatformUtilitiesHelper* GetInstance()
     {
         if (!INSTANCE)
@@ -23,9 +20,12 @@ public:
     PlatformUtilitiesHelper(const PlatformUtilitiesHelper&) = delete;
     PlatformUtilitiesHelper& operator=(const PlatformUtilitiesHelper&) = delete;
 
-    std::shared_ptr<IPlatformUtilities> get_platform_utility();
+    static std::shared_ptr<IPlatformUtilities> get_platform_utility();
     
 private:
+    PlatformUtilitiesHelper();
+    virtual ~PlatformUtilitiesHelper();
+    
     std::shared_ptr<IPlatformUtilities> helper = nullptr;
     static PlatformUtilitiesHelper* INSTANCE;
 };

@@ -11,7 +11,7 @@
 #include <windows.h>
 #endif
 
-FBattery WineUtilities::get_battery_status()
+std::shared_ptr<FBattery> WineUtilities::get_battery_status()
 {
     std::string append;
     if (HarmonyLink::get_is_wine())
@@ -27,7 +27,7 @@ FBattery WineUtilities::get_battery_status()
         std::ifstream status_file(append + "/sys/class/power_supply/BAT0/status");
         std::string status;
         if (status_file.is_open() && std::getline(status_file, status)) {
-            result.is_connected_to_power = (status == "Charging");
+            result.is_connected_to_ac = (status == "Charging" || status == "AC");
         }
 
         std::ifstream capacity_file(append + "/sys/class/power_supply/BAT0/capacity");
@@ -36,10 +36,10 @@ FBattery WineUtilities::get_battery_status()
         }
     }
 
-    return result;
+    return std::make_shared<FBattery>(result);
 }
 
-FOSVerInfo WineUtilities::get_linux_info()
+std::shared_ptr<FOSVerInfo> WineUtilities::get_linux_info()
 {
     std::string append;
     if (HarmonyLink::get_is_wine())
@@ -97,7 +97,7 @@ FOSVerInfo WineUtilities::get_linux_info()
         // Handle the error, perhaps by setting a default value or leaving the field unchanged
     }
 
-    return os_info;
+    return std::make_shared<FOSVerInfo>(os_info);
 }
 
 bool WineUtilities::detect_wine_presence()
@@ -108,7 +108,8 @@ bool WineUtilities::detect_wine_presence()
 
     if (!HasFound)
         HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "proton_get_version") != nullptr;
-        
+
+    printf("wine %s found\n", HasFound ? "has been" : "not");
     return HasFound;
 #else
     return false;

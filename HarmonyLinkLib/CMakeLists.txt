@@ -45,6 +45,7 @@ set(COMMON_INCLUDES
     "include/FString.h"
     "include/HarmonyLink.h"
     "include/Version.h"
+    "include/Platforms.h"
     "src/Platform/IPlatformUtilities.h"
     "src/Platform/PlatformUtilitiesHelper.h"
     "src/Platform/PlatformUtilitiesHelper.h"

@@ -6,7 +6,7 @@
 class WineUtilities
 {
 public:
-    static FBattery get_battery_status();
+    static std::shared_ptr<FBattery> get_battery_status();
 
     /**
      * @brief Retrieves Linux OS version information from a specified file.
@@ -21,9 +21,9 @@ public:
      * Linux system information.
      * 
      * @param file_location The location of the file containing OS version information.
-     * @return FOSVerInfo A structure containing the parsed OS version information.
+     * @return A shared pointer to a structure containing the parsed OS version information.
      */
-    static FOSVerInfo get_linux_info();
+    static std::shared_ptr<FOSVerInfo> get_linux_info();
 
     /**
      * @brief Detects the presence of Wine or Proton in Windows builds.

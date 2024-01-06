@@ -5,15 +5,13 @@
 class WindowsUtilities : public IPlatformUtilities
 {
 public:
-    WindowsUtilities();
+    void Init() override;
     bool is_running_under_wine() override
     {
-        return is_wine_;
+        return cached_is_wine_;
     }
     
-    FBattery get_battery_status() override;
+    std::shared_ptr<FBattery> fetch_battery_status() override;
     
-    FOSVerInfo get_os_version() override;
-protected:
-    inline static bool is_wine_ = false;
+    std::shared_ptr<FOSVerInfo> fetch_os_version() override;
 };

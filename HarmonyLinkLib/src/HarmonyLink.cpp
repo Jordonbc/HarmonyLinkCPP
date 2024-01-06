@@ -1,18 +1,13 @@
 ﻿#include "HarmonyLink.h"
-#include <iostream>
 
+#include <iostream>
 #include "Platform/IPlatformUtilities.h"
 #include "Platform/PlatformUtilitiesHelper.h"
 
-static std::shared_ptr<IPlatformUtilities> PlatformUtilities = nullptr;
+static std::shared_ptr<IPlatformUtilities> PlatformUtilities = PlatformUtilitiesHelper::get_platform_utility();
 
 bool HarmonyLink::get_is_wine()
 {
-    if (!PlatformUtilities)
-    {
-        PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
-    }
-
     if (!PlatformUtilities)
     {
         std::cout << "Failed to get platform utilities!\n";
@@ -22,30 +17,54 @@ bool HarmonyLink::get_is_wine()
     return PlatformUtilities->is_running_under_wine();
 }
 
-FOSVerInfo HarmonyLink::get_os_version()
+FDevice HarmonyLink::get_device_info()
 {
-    FOSVerInfo NewOSInfo = FOSVerInfo();
-    if (!PlatformUtilities)
-    {
-        PlatformUtilities = PlatformUtilitiesHelper::GetInstance()->get_platform_utility();
-    }
+    FDevice new_device = FDevice();
 
     if (!PlatformUtilities)
     {
         std::cout << "Failed to get platform utilities!\n";
-        return NewOSInfo;
+        return new_device;
     }
 
-    return PlatformUtilities->get_os_version();
+    if (const std::shared_ptr<FDevice> device = PlatformUtilities->get_device())
+    {
+        new_device = *device;
+    }
+    return new_device;
+}
+
+FOSVerInfo HarmonyLink::get_os_version()
+{
+    FOSVerInfo new_os_info = FOSVerInfo();
+
+    if (!PlatformUtilities)
+    {
+        std::cout << "Failed to get platform utilities!\n";
+        return new_os_info;
+    }
+
+    if (const std::shared_ptr<FOSVerInfo> os_version_info = PlatformUtilities->get_os_version())
+    {
+        new_os_info = *os_version_info;
+    }
+
+    return new_os_info;
 }
 
 FBattery HarmonyLink::get_battery_status()
 {
     FBattery battery = FBattery();
     
-    if (PlatformUtilities)
+    if (!PlatformUtilities)
     {
-        battery = PlatformUtilities->get_battery_status();
+        std::cout << "Failed to get platform utilities!\n";
+        return battery;
+    }
+
+    if (const std::shared_ptr<FBattery> new_battery = PlatformUtilities->get_battery_status())
+    {
+        battery = *new_battery;
     }
 
     return battery;

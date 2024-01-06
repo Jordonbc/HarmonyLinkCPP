@@ -5,57 +5,63 @@
 
 #include "Platform/WineUtilities.h"
 
-WindowsUtilities::WindowsUtilities()
+void WindowsUtilities::Init()
 {
-    is_wine_ = WineUtilities::detect_wine_presence();
+    IPlatformUtilities::Init();
+
+    std::cout << "WindowsUtilities initialised!\n";
 }
 
-FBattery WindowsUtilities::get_battery_status()
+std::shared_ptr<FBattery> WindowsUtilities::fetch_battery_status()
 {
-    SYSTEM_POWER_STATUS status;
+    if (is_linux())
+    {
+       return WineUtilities::get_battery_status();
+    }
     FBattery result;
-
+    
+    SYSTEM_POWER_STATUS status;
     if (GetSystemPowerStatus(&status)) {
         result.has_battery = status.BatteryFlag != 128; // 128 indicates no battery
-        result.is_connected_to_power = status.ACLineStatus == 1;
+        result.is_connected_to_ac = status.ACLineStatus == 1;
         result.battery_percent = result.has_battery ? status.BatteryLifePercent : 0;
     } else {
-        // In case of any error, you may choose to set default values
-        result.has_battery = false;
-        result.is_connected_to_power = false;
-        result.battery_percent = 0;
+        std::cout << "Failed to get power statistics.\n";
     }
 
-    return result;
+    return std::make_shared<FBattery>(result);
 }
 
-FOSVerInfo WindowsUtilities::get_os_version()
+std::shared_ptr<FOSVerInfo> WindowsUtilities::fetch_os_version()
 {
-    if (is_wine_)
+    printf("test: %s", is_linux() ? "true" : "false");
+    
+    if (is_linux())
     {
         return WineUtilities::get_linux_info();
     }
-
-    FOSVerInfo os_version;
+    
     OSVERSIONINFOEX os_version_info;
     ZeroMemory(&os_version_info, sizeof(OSVERSIONINFOEX));
     os_version_info.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
-    if (!GetVersionEx((OSVERSIONINFO *)&os_version_info)) {
+    if (!GetVersionEx(reinterpret_cast<OSVERSIONINFO*>(&os_version_info))) {
         // Handle error if needed
-        return os_version;
+        return nullptr;
     }
+
+    FOSVerInfo os_version;
 
     HKEY h_key;
     if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion"), 0, KEY_READ, &h_key) == ERROR_SUCCESS)
     {
-        DWORD dwSize;
-        DWORD dwType;
-        char szProductName[256];
-        dwSize = sizeof(szProductName);
-        if (RegQueryValueEx(h_key, TEXT("ProductName"), nullptr, &dwType, reinterpret_cast<LPBYTE>(szProductName), &dwSize) == ERROR_SUCCESS)
+        DWORD dw_size;
+        DWORD dw_type;
+        char sz_product_name[256];
+        dw_size = sizeof(sz_product_name);
+        if (RegQueryValueEx(h_key, TEXT("ProductName"), nullptr, &dw_type, reinterpret_cast<LPBYTE>(sz_product_name), &dw_size) == ERROR_SUCCESS)
         {
-            os_version.pretty_name = szProductName;
+            os_version.pretty_name = sz_product_name;
         }
         RegCloseKey(h_key);
     }
@@ -67,5 +73,5 @@ FOSVerInfo WindowsUtilities::get_os_version()
     os_version.name = "Windows";
     os_version.version = os_version_info.dwBuildNumber; // Build number as the version
 
-    return os_version;
+    return std::make_shared<FOSVerInfo>(os_version);
 }

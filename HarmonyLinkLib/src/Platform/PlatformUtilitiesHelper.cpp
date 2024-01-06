@@ -13,7 +13,7 @@ PlatformUtilitiesHelper::PlatformUtilitiesHelper()
     if (INSTANCE && INSTANCE != this)
     {
         delete INSTANCE;
-        INSTANCE = this;   
+        INSTANCE = this;
     }
     #if BUILD_WINDOWS
         helper = std::make_shared<WindowsUtilities>();
@@ -21,6 +21,11 @@ PlatformUtilitiesHelper::PlatformUtilitiesHelper()
         helper = std::make_shared<LinuxUtilities>();
         // ... other platform checks
     #endif
+
+    if (helper)
+    {
+        helper->Init();
+    }
 }
 
 PlatformUtilitiesHelper::~PlatformUtilitiesHelper()
@@ -30,5 +35,5 @@ PlatformUtilitiesHelper::~PlatformUtilitiesHelper()
 
 std::shared_ptr<IPlatformUtilities> PlatformUtilitiesHelper::get_platform_utility()
 {
-    return helper;
+    return GetInstance()->helper;
 }

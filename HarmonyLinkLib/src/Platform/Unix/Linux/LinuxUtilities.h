@@ -6,7 +6,12 @@
 class LinuxUtilities : public UnixUtilities {
 public:
     // Implementation for other Linux-specific functions
-    FBattery get_battery_status() override;
+    std::shared_ptr<FBattery> fetch_battery_status() override;
     
-    FOSVerInfo get_os_version() override;
+    std::shared_ptr<FOSVerInfo> fetch_os_version() override;
+
+    bool is_linux() override
+    {
+        return true;
+    }
 };
