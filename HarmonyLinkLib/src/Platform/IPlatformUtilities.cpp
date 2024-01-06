@@ -1,21 +1,54 @@
 ﻿#include "IPlatformUtilities.h"
 
-#include <fstream>
-
 #include "WineUtilities.h"
+#if BUILD_WINDOWS
+#include "Windows/WindowsUtilities.h"
+#elif BUILD_LINUX
+#include "Unix/Linux/LinuxUtilities.h"
+#elif BUILD_APPLE
+#include "Unix/Mac/MacUtilities.h"
+#elif BUILD_UNIX
+#include "Unix/Mac/MacUtilities.h"
+#endif
 
-void IPlatformUtilities::Init()
+static std::shared_ptr<IPlatformUtilities> INSTANCE = nullptr;
+
+std::shared_ptr<IPlatformUtilities>& IPlatformUtilities::GetInstance()
 {
-    // We kinda need to know this first ya know!
-    cached_is_wine_ = WineUtilities::detect_wine_presence();
+    if (!INSTANCE)
+    {
+#if BUILD_WINDOWS
+        INSTANCE = std::make_shared<WindowsUtilities>();
+#elif BUILD_LINUX
+        INSTANCE = std::make_shared<LinuxUtilities>();
+#elif BUILD_APPLE
+        INSTANCE = std::make_shared<MacUtilities>();
+#elif BUILD_UNIX
+        INSTANCE = std::make_shared<UnixUtilities>();
+// ... other platform checks
+#else
+        std::cout << "Platform is not supported.\n"
+#endif
+    }
     
-    cached_os_version_ = fetch_os_version();
-    cached_device_ = fetch_device();
-
-    Initialised = true;
+    return INSTANCE;
 }
 
-std::shared_ptr<FDevice> IPlatformUtilities::fetch_device()
+bool IPlatformUtilities::is_running_under_wine()
+{
+    return WineUtilities::detect_wine_presence();
+}
+
+bool IPlatformUtilities::is_linux()
+{
+#ifdef BUILD_LINUX
+    return true;
+#else
+    return is_running_under_wine();
+#endif
+}
+
+std::shared_ptr<FDevice> IPlatformUtilities::get_device()
 {
     FDevice new_device;
     
@@ -28,7 +61,7 @@ std::shared_ptr<FDevice> IPlatformUtilities::fetch_device()
         new_device.platform = EPlatform::WINDOWS;
     }
 
-    const std::shared_ptr<FBattery> battery_status = fetch_battery_status();
+    const std::shared_ptr<FBattery> battery_status = get_battery_status();
 
     if (battery_status && !battery_status->has_battery)
     {
@@ -48,9 +81,4 @@ std::shared_ptr<FDevice> IPlatformUtilities::fetch_device()
     }
 
     return std::make_shared<FDevice>(new_device);
-}
-
-IPlatformUtilities::IPlatformUtilities()
-{
-    std::cout << "Creating new instance of IPlatformUtilities.\n";
 }

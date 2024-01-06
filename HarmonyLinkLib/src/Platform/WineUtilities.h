@@ -1,7 +1,7 @@
 #pragma once
 
-#include "FOSVerInfo.h"
-#include "FBattery.h"
+#include "Structs/FBattery.h"
+#include "Structs/FOSVerInfo.h"
 
 class WineUtilities
 {

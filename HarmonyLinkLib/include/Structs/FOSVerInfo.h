@@ -1,8 +1,9 @@
 ﻿#pragma once
 
 #include "FString.h"
+#include "HarmonyLinkStruct.h"
 
-struct FOSVerInfo {
+struct FOSVerInfo : HarmonyLinkStruct {
     // 'name' represents the operating system's name, e.g., "Ubuntu" in Linux or "Windows" in Windows systems.
     FString name;
     

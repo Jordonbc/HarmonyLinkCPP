@@ -30,7 +30,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Explicitly list source files
 set(COMMON_SOURCES
     "src/Platform/IPlatformUtilities.cpp"
-    "src/Platform/PlatformUtilitiesHelper.cpp"
     "src/HarmonyLink.cpp"
     "src/Version.cpp"
     "src/dllmain.cpp"
@@ -40,15 +39,18 @@ set(COMMON_SOURCES
 # Explicitly list include files
 set(COMMON_INCLUDES
     "include/Core.h"
-    "include/FBattery.h"
-    "include/FOSVerInfo.h"
+    "include/Structs/FBattery.h"
+    "include/Structs/FOSVerInfo.h"
+    "include/Structs/FDevice.h"
+    
+    "include/Enums/EDevice.h"
+    "include/Enums/EPlatform.h"
+    
     "include/FString.h"
     "include/HarmonyLink.h"
     "include/Version.h"
-    "include/Platforms.h"
+    
     "src/Platform/IPlatformUtilities.h"
-    "src/Platform/PlatformUtilitiesHelper.h"
-    "src/Platform/PlatformUtilitiesHelper.h"
     "src/Platform/WineUtilities.h"
 )
 

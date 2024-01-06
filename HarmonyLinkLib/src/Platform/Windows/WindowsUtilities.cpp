@@ -5,14 +5,7 @@
 
 #include "Platform/WineUtilities.h"
 
-void WindowsUtilities::Init()
-{
-    IPlatformUtilities::Init();
-
-    std::cout << "WindowsUtilities initialised!\n";
-}
-
-std::shared_ptr<FBattery> WindowsUtilities::fetch_battery_status()
+std::shared_ptr<FBattery> WindowsUtilities::get_battery_status()
 {
     if (is_linux())
     {
@@ -32,7 +25,7 @@ std::shared_ptr<FBattery> WindowsUtilities::fetch_battery_status()
     return std::make_shared<FBattery>(result);
 }
 
-std::shared_ptr<FOSVerInfo> WindowsUtilities::fetch_os_version()
+std::shared_ptr<FOSVerInfo> WindowsUtilities::get_os_version()
 {
     printf("test: %s", is_linux() ? "true" : "false");
     

@@ -3,18 +3,20 @@
 #pragma once
 
 #include "Core.h"
-#include "FBattery.h"
-#include "FOSVerInfo.h"
-#include "Platforms.h"
+#include "Structs/FBattery.h"
+#include "Structs/FDevice.h"
+#include "Structs/FOSVerInfo.h"
 
-class HARMONYLINKLIB_API HarmonyLink
+
+class IPlatformUtilities;
+
+namespace HarmonyLink
 {
-public:
-    static bool get_is_wine();
+    extern "C" HARMONYLINKLIB_API bool get_is_wine();
 
-    static FDevice get_device_info();
+    extern "C" HARMONYLINKLIB_API FDevice* get_device_info();
 
-    static FOSVerInfo get_os_version();
+    extern "C" HARMONYLINKLIB_API FOSVerInfo* get_os_version();
     
-    static FBattery get_battery_status();
-};
+    extern "C" HARMONYLINKLIB_API FBattery* get_battery_status();
+}

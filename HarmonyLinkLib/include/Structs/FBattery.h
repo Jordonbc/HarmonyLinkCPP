@@ -2,7 +2,9 @@
 #include <cstdint>
 #include <iostream>
 
-struct FBattery
+#include "HarmonyLinkStruct.h"
+
+struct FBattery : HarmonyLinkStruct
 {
     bool has_battery;
     bool is_connected_to_ac = true;

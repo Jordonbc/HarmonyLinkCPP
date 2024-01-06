@@ -5,8 +5,6 @@
 #include <thread>
 #include <atomic>
 
-#include "FBattery.h"
-#include "FOSVerInfo.h"
 #include "HarmonyLink.h"
 
 // Include necessary headers for platform-specific functionality
@@ -37,7 +35,7 @@ void checkForQuit() {
     while (!quitFlag) {
 #ifdef BUILD_WINDOWS
         if (_kbhit()) {
-            char c = _getch();
+            const char c = static_cast<char>(_getch());
             if (c == 'q' || c == 'Q') {
                 quitFlag = true;
                 break;
@@ -68,10 +66,10 @@ void checkForQuit() {
             }
         }
 #endif
+        // Checks for input every roughly 60 frames
         std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
 }
-
 
 int main()
 {
@@ -79,35 +77,54 @@ int main()
 
     std::thread inputThread(checkForQuit);
 
+    const bool isWine = HarmonyLink::get_is_wine();
+    const char* test = isWine ? "is" : "isn't";
+
+    const FOSVerInfo* os_info = HarmonyLink::get_os_version();
+
+    const FDevice* device_info = HarmonyLink::get_device_info();
+
     // This loop is to test how stable & expensive these functions are
     while (!quitFlag)
     {
         // Clear the screen
         clearScreen();
 
-        const bool isWine = HarmonyLink::get_is_wine();
-
-        const char* test = isWine ? "is" : "isn't";
-    
         std::cout << "This program " << test << " running under wine.\n";
 
-        HarmonyLink::get_battery_status().to_string();
-    
-        const FOSVerInfo distro_info = HarmonyLink::get_os_version();
-        distro_info.print();
-        //printf("pretty_name: %s\n", distro_info.pretty_name.c_str());
+        if (os_info)
+        {
+            os_info->print();
+        }
 
-        const FDevice device_info = HarmonyLink::get_device_info();
+        if (device_info)
+        {
+            printf("Is SteamDeck: %s\n", device_info->device == EDevice::STEAM_DECK ? "true" : "false");
+        }
 
-        printf("Is SteamDeck: %s\n", device_info.device == EDevice::STEAM_DECK ? "true" : "false");
+        // we can't do this before the loop because we need updated values
+        if (const FBattery* battery = HarmonyLink::get_battery_status())
+        {
+            battery->to_string();
+            battery->free();
+        }
 
-        // Wait for 100 milisecods
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     if (inputThread.joinable())
     {
         inputThread.join();
+    }
+
+    if (os_info)
+    {
+        os_info->free();
+    }
+
+    if (device_info)
+    {
+        device_info->free();
     }
     
     return 0;
