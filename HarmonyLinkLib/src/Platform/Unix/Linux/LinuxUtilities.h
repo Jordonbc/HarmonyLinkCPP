@@ -11,6 +11,8 @@ public:
     
     std::shared_ptr<FOSVerInfo> get_os_version() override;
 
+    std::shared_ptr<FCPUInfo> get_cpu_info() override;
+
     bool is_linux() override
     {
         return true;

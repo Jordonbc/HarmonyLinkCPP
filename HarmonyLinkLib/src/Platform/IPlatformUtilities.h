@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "Structs/FBattery.h"
+#include "Structs/FCPUInfo.h"
 #include "Structs/FDevice.h"
 #include "Structs/FOSVerInfo.h"
 
@@ -13,14 +14,14 @@ public:
     IPlatformUtilities(IPlatformUtilities&& other) = default;
     IPlatformUtilities& operator=(const IPlatformUtilities& other) = default;
     IPlatformUtilities& operator=(IPlatformUtilities&& other) = default;
-
     virtual ~IPlatformUtilities() = default;
     
     // General OS-level functions
     virtual bool is_running_under_wine();
     virtual bool is_linux();
+    
     virtual std::shared_ptr<FDevice> get_device();
-
+    virtual std::shared_ptr<FCPUInfo> get_cpu_info() = 0;
     virtual std::shared_ptr<FBattery> get_battery_status() = 0;
 
     // Modified get_os_version to use caching

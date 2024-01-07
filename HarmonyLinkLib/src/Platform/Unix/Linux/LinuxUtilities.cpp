@@ -14,3 +14,8 @@ std::shared_ptr<FOSVerInfo> LinuxUtilities::get_os_version()
 {
     return WineUtilities::get_linux_info();
 }
+
+std::shared_ptr<FCPUInfo> LinuxUtilities::get_cpu_info()
+{
+    return WineUtilities::get_cpu_info();
+}

@@ -25,10 +25,18 @@ std::shared_ptr<FBattery> WindowsUtilities::get_battery_status()
     return std::make_shared<FBattery>(result);
 }
 
+std::shared_ptr<FCPUInfo> WindowsUtilities::get_cpu_info()
+{
+    if (is_linux())
+    {
+        return WineUtilities::get_cpu_info();
+    }
+    
+    return {};
+}
+
 std::shared_ptr<FOSVerInfo> WindowsUtilities::get_os_version()
 {
-    printf("test: %s", is_linux() ? "true" : "false");
-    
     if (is_linux())
     {
         return WineUtilities::get_linux_info();

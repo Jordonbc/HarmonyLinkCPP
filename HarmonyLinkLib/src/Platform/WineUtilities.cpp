@@ -11,10 +11,15 @@
 #include <windows.h>
 #endif
 
+namespace
+{
+    bool force_detect_wine = false;
+}
+
 std::shared_ptr<FBattery> WineUtilities::get_battery_status()
 {
     std::string append;
-    if (HarmonyLink::get_is_wine())
+    if (is_wine_present())
     {
         append = "Z:";
     }
@@ -39,10 +44,70 @@ std::shared_ptr<FBattery> WineUtilities::get_battery_status()
     return std::make_shared<FBattery>(result);
 }
 
+std::shared_ptr<FCPUInfo> WineUtilities::get_cpu_info()
+{
+    std::cout << "Getting cpu info\n";
+    
+    std::string append;
+    if (is_wine_present())
+    {
+        append = "Z:";
+    }
+
+    FCPUInfo cpu_info;
+    
+    std::ifstream file(append + "/proc/cpuinfo");
+    std::unordered_map<FString, FString> hashmap;
+
+    if (file) {
+        std::string line;
+        while (std::getline(file, line)) {
+            std::istringstream line_stream(line);
+            std::string key, value;
+            if (std::getline(line_stream, key, ':')) {
+                key.erase(key.find_last_not_of(" \t") + 1); // Trim trailing whitespace from key
+                if (std::getline(line_stream, value)) {
+                    value.erase(0, value.find_first_not_of(" \t")); // Trim leading whitespace from value
+
+                    // Aggregate flags
+                    if (key == "flags") {
+                        std::istringstream flag_stream(value);
+                        std::string flag;
+                        while (flag_stream >> flag) {
+                            flag.erase(flag.find_last_not_of(" \t") + 1); // Trim trailing whitespace from flag
+                            cpu_info.Flags.insert(FString(flag));
+                            //printf("Flag detected: %s\n", flag.c_str());
+                        }
+                    } else {
+                        hashmap[key] = value;
+                    }
+                }
+            }
+        }
+        file.close();
+    }
+
+    // Now you can access the values using the keys:
+    cpu_info.VendorID = hashmap["vendor_id"];
+    cpu_info.Model_Name = hashmap["model name"];
+
+    try {
+        cpu_info.Physical_Cores = std::stoi(hashmap["cpu cores"].c_str());
+    } catch (const std::invalid_argument& ia) {
+        std::cerr << "Invalid argument: " << ia.what() << '\n';
+    } catch (const std::out_of_range& oor) {
+        std::cerr << "Out of Range error: " << oor.what() << '\n';
+    }
+    
+    cpu_info.Logical_Cores = (cpu_info.Flags.find("ht") != cpu_info.Flags.end()) ? cpu_info.Physical_Cores * 2 : cpu_info.Physical_Cores;
+
+    return std::make_shared<FCPUInfo>(cpu_info);
+}
+
 std::shared_ptr<FOSVerInfo> WineUtilities::get_linux_info()
 {
     std::string append;
-    if (HarmonyLink::get_is_wine())
+    if (is_wine_present())
     {
         append = "Z:";
     }
@@ -100,18 +165,35 @@ std::shared_ptr<FOSVerInfo> WineUtilities::get_linux_info()
     return std::make_shared<FOSVerInfo>(os_info);
 }
 
-bool WineUtilities::detect_wine_presence()
+bool WineUtilities::is_wine_present()
 {
+    static bool isWineCached = false; // Static variable to store the cached result
+    static bool isWine = false;       // Static variable to indicate if the caching has been done
+
+    if (!isWineCached)
+    {
+        // Only detect wine if force_detect_wine is true or if we haven't cached the result yet
 #ifdef BUILD_WINDOWS
-    std::cout << "Detecting wine...\n";
-    bool HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "wine_get_version") != nullptr;
+        std::cout << "Detecting wine...\n";
+        bool HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "wine_get_version") != nullptr;
 
-    if (!HasFound)
-        HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "proton_get_version") != nullptr;
+        if (!HasFound)
+            HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "proton_get_version") != nullptr;
 
-    printf("wine %s found\n", HasFound ? "has been" : "not");
-    return HasFound;
+        printf("wine %s found\n", HasFound ? "has been" : "not");
+
+        isWine = HasFound; // Cache the result
 #else
-    return false;
+        isWine = false; // In non-Windows builds, always set isWine to false
 #endif
+        isWineCached = true; // Indicate that the result is now cached
+    }
+
+    return isWine; // Return the cached result
+}
+
+bool WineUtilities::force_detect_wine_presence()
+{
+    force_detect_wine = true;
+    return is_wine_present();
 }

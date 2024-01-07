@@ -84,6 +84,8 @@ int main()
 
     const FDevice* device_info = HarmonyLink::get_device_info();
 
+    const FCPUInfo* cpu_info = HarmonyLink::get_cpu_info();
+
     // This loop is to test how stable & expensive these functions are
     while (!quitFlag)
     {
@@ -91,6 +93,11 @@ int main()
         clearScreen();
 
         std::cout << "This program " << test << " running under wine.\n";
+
+        if (cpu_info)
+        {
+            cpu_info->print();
+        }
 
         if (os_info)
         {
@@ -125,6 +132,11 @@ int main()
     if (device_info)
     {
         device_info->free();
+    }
+
+    if (cpu_info)
+    {
+        cpu_info->free();
     }
     
     return 0;

@@ -1,12 +1,15 @@
 #pragma once
 
 #include "Structs/FBattery.h"
+#include "Structs/FCPUInfo.h"
 #include "Structs/FOSVerInfo.h"
 
 class WineUtilities
 {
 public:
     static std::shared_ptr<FBattery> get_battery_status();
+
+    static std::shared_ptr<FCPUInfo> get_cpu_info();
 
     /**
      * @brief Retrieves Linux OS version information from a specified file.
@@ -34,5 +37,7 @@ public:
      *
      * @return bool True if Wine or Proton is detected, false otherwise.
      */
-    static bool detect_wine_presence();
+    static bool is_wine_present();
+
+    static bool force_detect_wine_presence();
 };

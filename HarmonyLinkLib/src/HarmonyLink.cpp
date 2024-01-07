@@ -19,6 +19,24 @@ bool HarmonyLink::get_is_wine()
     return PlatformUtilities->is_running_under_wine();
 }
 
+FCPUInfo* HarmonyLink::get_cpu_info()
+{
+    if (!PlatformUtilities)
+    {
+        std::cout << "Failed to get platform utilities!\n";
+        return nullptr;
+    }
+
+    const std::shared_ptr<FCPUInfo> cpu_info = PlatformUtilities->get_cpu_info();
+    if (!cpu_info)
+    {
+        return nullptr;
+    }
+
+    FCPUInfo* new_cpu_info = new FCPUInfo(*cpu_info);
+    return new_cpu_info;
+}
+
 FDevice* HarmonyLink::get_device_info()
 {
     if (!PlatformUtilities)

@@ -4,6 +4,7 @@
 
 #include "Core.h"
 #include "Structs/FBattery.h"
+#include "Structs/FCPUInfo.h"
 #include "Structs/FDevice.h"
 #include "Structs/FOSVerInfo.h"
 
@@ -13,6 +14,8 @@ class IPlatformUtilities;
 namespace HarmonyLink
 {
     extern "C" HARMONYLINKLIB_API bool get_is_wine();
+
+    extern "C" HARMONYLINKLIB_API FCPUInfo* get_cpu_info();
 
     extern "C" HARMONYLINKLIB_API FDevice* get_device_info();
 

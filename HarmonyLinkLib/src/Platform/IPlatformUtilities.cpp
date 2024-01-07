@@ -36,7 +36,7 @@ std::shared_ptr<IPlatformUtilities>& IPlatformUtilities::GetInstance()
 
 bool IPlatformUtilities::is_running_under_wine()
 {
-    return WineUtilities::detect_wine_presence();
+    return WineUtilities::is_wine_present();
 }
 
 bool IPlatformUtilities::is_linux()

@@ -42,6 +42,7 @@ set(COMMON_INCLUDES
     "include/Structs/FBattery.h"
     "include/Structs/FOSVerInfo.h"
     "include/Structs/FDevice.h"
+    "include/Structs/FCPUInfo.h"
     
     "include/Enums/EDevice.h"
     "include/Enums/EPlatform.h"
