@@ -73,6 +73,16 @@ set(LINUX_INCLUDES
     "src/Platform/Unix/UnixUtilities.h"
 )
 
+set(MAC_SOURCES
+    "src/Platform/Unix/Mac/MacUtilities.cpp"
+    "src/Platform/Unix/UnixUtilities.cpp"
+)
+
+set(MAC_INCLUDES
+    "src/Platform/Unix/Mac/MacUtilities.h"
+    "src/Platform/Unix/UnixUtilities.h"
+)
+
 # Platform-specific definitions
 if(WIN32)
     message(STATUS "Compiling for Windows...")
@@ -81,7 +91,9 @@ if(WIN32)
 elseif(UNIX)
   message(STATUS "Compiling for Unix-based systems...")
   if(APPLE)
-    message(FATAL_ERROR "Mac OS is currently unsupported.")
+    message(STATUS "Compiling for Mac...")
+    list(APPEND LIB_SOURCES ${COMMON_SOURCES} ${MAC_SOURCES})
+    list(APPEND LIB_INCLUDES ${COMMON_INCLUDES} ${MAC_INCLUDES})
   else()
     message(STATUS "Compiling for Linux...")
     list(APPEND LIB_SOURCES ${COMMON_SOURCES} ${LINUX_SOURCES})

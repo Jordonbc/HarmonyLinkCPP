@@ -7,7 +7,7 @@
 #include "Windows/WindowsUtilities.h"
 #elif BUILD_LINUX
 #include "Unix/Linux/LinuxUtilities.h"
-#elif BUILD_APPLE
+#elif BUILD_MAC
 #include "Unix/Mac/MacUtilities.h"
 #elif BUILD_UNIX
 #include "Unix/Mac/MacUtilities.h"
@@ -23,7 +23,7 @@ std::shared_ptr<IPlatformUtilities>& IPlatformUtilities::GetInstance()
         INSTANCE = std::make_shared<WindowsUtilities>();
 #elif BUILD_LINUX
         INSTANCE = std::make_shared<LinuxUtilities>();
-#elif BUILD_APPLE
+#elif BUILD_MAC
         INSTANCE = std::make_shared<MacUtilities>();
 #elif BUILD_UNIX
         INSTANCE = std::make_shared<UnixUtilities>();
