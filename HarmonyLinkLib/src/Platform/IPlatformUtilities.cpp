@@ -1,5 +1,7 @@
 ﻿#include "IPlatformUtilities.h"
 
+#include <set>
+
 #include "WineUtilities.h"
 #if BUILD_WINDOWS
 #include "Windows/WindowsUtilities.h"
@@ -72,13 +74,46 @@ std::shared_ptr<FDevice> IPlatformUtilities::get_device()
         new_device.device = EDevice::LAPTOP;
     }
 
-    if (const std::shared_ptr<FOSVerInfo> version = get_os_version())
-    {
-        if (version->variant_id == "steamdeck" && version->name == "SteamOS")
-        {
-            new_device.device = EDevice::STEAM_DECK;
-        }
+    if (is_steam_deck(new_device)) {
+        new_device.device = EDevice::STEAM_DECK;
+    }
+    return std::make_shared<FDevice>(new_device);
+}
+
+// Helper function to check if the device is a Steam Deck
+bool IPlatformUtilities::is_steam_deck(const FDevice& device) {
+
+    // Check if the device is already identified as a Steam Deck
+    if (device.device == EDevice::STEAM_DECK) {
+        return true;
     }
 
-    return std::make_shared<FDevice>(new_device);
+    // Check for Steam Deck by OS version
+    if (const std::shared_ptr<FOSVerInfo> version = get_os_version()) {
+        if (version->variant_id == "steamdeck" && version->name == "SteamOS") {
+            return true;
+        }
+    } else {
+        printf("OS version information not available.\n");
+    }
+
+    // Set of known Steam Deck CPU model names
+    const std::set<std::string> steam_deck_models = {"amd custom apu 0405" /*, other models... */};
+
+    // Check for Steam Deck by CPU model name
+    if (const std::shared_ptr<FCPUInfo> cpu_info = get_cpu_info()) {
+        const FString cpu_model_lower = FString::to_lower(cpu_info->Model_Name);
+        for (const auto& model : steam_deck_models) {
+            if (cpu_model_lower == model) {
+                printf("Steam Deck detected by CPU model name.\n");
+                return true;
+            }
+        }
+    } else {
+        printf("CPU information not available.\n");
+    }
+
+    printf("Device is not a Steam Deck.\n");
+    
+    return false;
 }

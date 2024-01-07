@@ -36,12 +36,12 @@ struct FOSVerInfo : HarmonyLinkStruct {
 
     void print() const
     {
-        printf("Name: %s\n", name.c_str());
-        printf("Version: %d\n", version);
-        printf("ID: %s\n", id.c_str());
-        printf("Version ID: %s\n", version_id.c_str());
-        printf("Version Codename: %s\n", version_codename.c_str());
-        printf("Pretty Name: %s\n", pretty_name.c_str());
-        printf("Variant ID: %s\n", variant_id.c_str());
+        printf("Name: '%s'\n", name.c_str());
+        printf("Version: '%d'\n", version);
+        printf("ID: '%s'\n", id.c_str());
+        printf("Version ID: '%s'\n", version_id.c_str());
+        printf("Version Codename: '%s'\n", version_codename.c_str());
+        printf("Pretty Name: '%s'\n", pretty_name.c_str());
+        printf("Variant ID: '%s'\n", variant_id.c_str());
     }
 };

@@ -16,10 +16,10 @@ struct FCPUInfo : HarmonyLinkStruct
 
     void print() const
     {
-        printf("VendorID: %s\n", VendorID.c_str());
-        printf("Model_Name: %s\n", Model_Name.c_str());
-        printf("Physical_Cores: %d\n", Physical_Cores);
-        printf("Logical_Cores: %d\n", Logical_Cores);
+        printf("VendorID: '%s'\n", VendorID.c_str());
+        printf("Model_Name: '%s'\n", Model_Name.c_str());
+        printf("Physical_Cores: '%d'\n", Physical_Cores);
+        printf("Logical_Cores: '%d'\n", Logical_Cores);
         
         // Initialize a string to hold all flags
         std::string allFlags;
@@ -32,6 +32,6 @@ struct FCPUInfo : HarmonyLinkStruct
             allFlags.pop_back();
         }
 
-        printf("Flags: %s\n", allFlags.c_str());
+        printf("Flags: '%s'\n", allFlags.c_str());
     }
 };

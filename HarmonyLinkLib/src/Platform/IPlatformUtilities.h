@@ -23,9 +23,9 @@ public:
     virtual std::shared_ptr<FDevice> get_device();
     virtual std::shared_ptr<FCPUInfo> get_cpu_info() = 0;
     virtual std::shared_ptr<FBattery> get_battery_status() = 0;
-
-    // Modified get_os_version to use caching
     virtual std::shared_ptr<FOSVerInfo> get_os_version() = 0;
+
+    bool is_steam_deck(const FDevice& device);
 
     // Add more virtual functions for other OS interactions here
 };
