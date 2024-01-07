@@ -25,19 +25,23 @@ std::shared_ptr<FBattery> WineUtilities::get_battery_status()
     }
 
     FBattery result = {};
-    result.has_battery = std::filesystem::exists(append + "/sys/class/power_supply/BAT0");
+    for (int i = 0; i <= 9; ++i) {
+        if (std::string bat_path = append + "/sys/class/power_supply/BAT" + std::to_string(i); std::filesystem::exists(bat_path)) {
+            result.has_battery = true;
 
-    // If a battery is present, read more details
-    if (result.has_battery) {
-        std::ifstream status_file(append + "/sys/class/power_supply/BAT0/status");
-        std::string status;
-        if (status_file.is_open() && std::getline(status_file, status)) {
-            result.is_connected_to_ac = (status == "Charging" || status == "AC");
-        }
+            std::ifstream status_file(bat_path + "/status");
+            std::string status;
+            if (status_file.is_open() && std::getline(status_file, status)) {
+                if (status == "Charging" || status == "AC") {
+                    result.is_connected_to_ac = true;
+                }
+            }
 
-        std::ifstream capacity_file(append + "/sys/class/power_supply/BAT0/capacity");
-        if (capacity_file.is_open() && std::getline(capacity_file, status)) {
-            result.battery_percent = static_cast<uint8_t>(std::stoi(status));
+            std::ifstream capacity_file(bat_path + "/capacity");
+            if (capacity_file.is_open() && std::getline(capacity_file, status)) {
+                result.battery_percent = static_cast<uint8_t>(std::stoi(status));
+                break;  // assuming you only need data from the first battery found
+            }
         }
     }
 

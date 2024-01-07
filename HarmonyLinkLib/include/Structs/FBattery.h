@@ -7,7 +7,7 @@
 struct FBattery : HarmonyLinkStruct
 {
     bool has_battery;
-    bool is_connected_to_ac = true;
+    bool is_connected_to_ac;
     uint8_t battery_percent;
 
     void to_string() const {
