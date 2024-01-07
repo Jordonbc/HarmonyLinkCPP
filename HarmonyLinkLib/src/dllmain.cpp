@@ -7,7 +7,7 @@ namespace HarmonyLinkLib
 {
     void HarmonyLinkInit()
     {
-        std::cout << "HarmonyLink V" << version::ToString().c_str() << " Copyright (C) 2023 Jordon Brooks\n";
+        std::wcout << "HarmonyLink V" << version::ToString().c_str() << " Copyright (C) 2023 Jordon Brooks\n";
     }
 }
 

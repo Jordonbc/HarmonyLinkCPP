@@ -18,10 +18,10 @@ namespace HarmonyLinkLib
 
         void print() const
         {
-            printf("VendorID: '%s'\n", VendorID.c_str());
-            printf("Model_Name: '%s'\n", Model_Name.c_str());
-            printf("Physical_Cores: '%d'\n", Physical_Cores);
-            printf("Logical_Cores: '%d'\n", Logical_Cores);
+            wprintf(L"VendorID: '%hs'\n", VendorID.c_str());
+            wprintf(L"Model_Name: '%hs'\n", Model_Name.c_str());
+            wprintf(L"Physical_Cores: '%d'\n", Physical_Cores);
+            wprintf(L"Logical_Cores: '%d'\n", Logical_Cores);
             
             // Initialize a string to hold all flags
             std::string allFlags;
@@ -34,7 +34,7 @@ namespace HarmonyLinkLib
                 allFlags.pop_back();
             }
 
-            printf("Flags: '%s'\n", allFlags.c_str());
+            wprintf(L"Flags: '%hs'\n", allFlags.c_str());
         }
     };
 }

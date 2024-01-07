@@ -31,7 +31,7 @@ std::shared_ptr<IPlatformUtilities>& IPlatformUtilities::GetInstance()
         INSTANCE = std::make_shared<UnixUtilities>();
 // ... other platform checks
 #else
-        std::cout << "Platform is not supported.\n"
+        std::wcout << "Platform is not supported.\n"
 #endif
     }
     
@@ -96,7 +96,7 @@ bool IPlatformUtilities::is_steam_deck(const FDevice& device) {
             return true;
         }
     } else {
-        printf("OS version information not available.\n");
+        wprintf(L"OS version information not available.\n");
     }
 
     // Set of known Steam Deck CPU model names
@@ -107,15 +107,15 @@ bool IPlatformUtilities::is_steam_deck(const FDevice& device) {
         const FString cpu_model_lower = FString::to_lower(cpu_info->Model_Name);
         for (const auto& model : steam_deck_models) {
             if (cpu_model_lower == model) {
-                printf("Steam Deck detected by CPU model name.\n");
+                wprintf(L"Steam Deck detected by CPU model name.\n");
                 return true;
             }
         }
     } else {
-        printf("CPU information not available.\n");
+        wprintf(L"CPU information not available.\n");
     }
 
-    printf("Device is not a Steam Deck.\n");
+    wprintf(L"Device is not a Steam Deck.\n");
     
     return false;
 }

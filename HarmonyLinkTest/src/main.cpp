@@ -5,7 +5,7 @@
 #include <thread>
 #include <atomic>
 
-#include "HarmonyLink.h"
+#include "HarmonyLinkLib.h"
 
 // Include necessary headers for platform-specific functionality
 #ifdef BUILD_WINDOWS
@@ -92,7 +92,7 @@ int main()
         // Clear the screen
         clearScreen();
 
-        std::cout << "This program " << test << " running under wine.\n";
+        std::wcout << "This program " << test << " running under wine.\n";
 
         if (cpu_info)
         {
@@ -106,7 +106,7 @@ int main()
 
         if (device_info)
         {
-            printf("Is SteamDeck: %s\n", device_info->device == HarmonyLinkLib::EDevice::STEAM_DECK ? "true" : "false");
+            wprintf(L"Is SteamDeck: %s\n", device_info->device == HarmonyLinkLib::EDevice::STEAM_DECK ? L"true" : L"false");
         }
 
         // we can't do this before the loop because we need updated values

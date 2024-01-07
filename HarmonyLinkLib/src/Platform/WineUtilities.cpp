@@ -5,7 +5,6 @@
 #include <sstream>
 #include <unordered_map>
 #include <filesystem>
-#include "HarmonyLink.h"
 
 #ifdef BUILD_WINDOWS
 #include <windows.h>
@@ -49,7 +48,7 @@ namespace HarmonyLinkLib
 
     std::shared_ptr<FCPUInfo> WineUtilities::get_cpu_info()
     {
-        std::cout << "Getting cpu info\n";
+        std::wcout << "Getting cpu info\n";
         
         std::string append;
         if (is_wine_present())
@@ -97,9 +96,9 @@ namespace HarmonyLinkLib
         try {
             cpu_info.Physical_Cores = std::stoi(hashmap["cpu cores"].c_str());
         } catch (const std::invalid_argument& ia) {
-            std::cerr << "Invalid argument: " << ia.what() << '\n';
+            std::wcerr << "Invalid argument: " << ia.what() << '\n';
         } catch (const std::out_of_range& oor) {
-            std::cerr << "Out of Range error: " << oor.what() << '\n';
+            std::wcerr << "Out of Range error: " << oor.what() << '\n';
         }
         
         cpu_info.Logical_Cores = (cpu_info.Flags.find("ht") != cpu_info.Flags.end()) ? cpu_info.Physical_Cores * 2 : cpu_info.Physical_Cores;
@@ -177,13 +176,13 @@ namespace HarmonyLinkLib
         {
             // Only detect wine if force_detect_wine is true or if we haven't cached the result yet
 #ifdef BUILD_WINDOWS
-            std::cout << "Detecting wine...\n";
+            std::wcout << "Detecting wine...\n";
             bool HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "wine_get_version") != nullptr;
 
             if (!HasFound)
                 HasFound = GetProcAddress(GetModuleHandle("ntdll.dll"), "proton_get_version") != nullptr;
 
-            printf("wine %s found\n", HasFound ? "has been" : "not");
+            wprintf(L"wine %s found\n", HasFound ? L"has been" : L"not");
 
             isWine = HasFound; // Cache the result
 #else

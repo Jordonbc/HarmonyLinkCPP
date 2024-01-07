@@ -21,7 +21,7 @@ namespace HarmonyLinkLib
         result.is_connected_to_ac = status.ACLineStatus == 1;
         result.battery_percent = result.has_battery ? status.BatteryLifePercent : 0;
     } else {
-        std::cout << "Failed to get power statistics.\n";
+        std::wcout << "Failed to get power statistics.\n";
     }
 
     return std::make_shared<FBattery>(result);

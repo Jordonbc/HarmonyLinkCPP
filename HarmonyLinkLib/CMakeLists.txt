@@ -30,7 +30,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Explicitly list source files
 set(COMMON_SOURCES
     "src/Platform/IPlatformUtilities.cpp"
-    "src/HarmonyLink.cpp"
+    "src/HarmonyLinkLib.cpp"
     "src/Version.cpp"
     "src/dllmain.cpp"
     "src/Platform/WineUtilities.cpp"
@@ -48,7 +48,7 @@ set(COMMON_INCLUDES
     "include/Enums/EPlatform.h"
     
     "include/FString.h"
-    "include/HarmonyLink.h"
+    "include/HarmonyLinkLib.h"
     "include/Version.h"
     
     "src/Platform/IPlatformUtilities.h"

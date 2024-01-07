@@ -1,4 +1,4 @@
-﻿#include "HarmonyLink.h"
+﻿#include "HarmonyLinkLib.h"
 
 #include <iostream>
 #include "Platform/IPlatformUtilities.h"
@@ -11,7 +11,7 @@ namespace HarmonyLinkLib
     {
         if (!PlatformUtilities)
         {
-            std::cout << "Failed to get platform utilities!\n";
+            std::wcout << "Failed to get platform utilities!\n";
             return false;
         }
 
@@ -22,7 +22,7 @@ namespace HarmonyLinkLib
     {
         if (!PlatformUtilities)
         {
-            std::cout << "Failed to get platform utilities!\n";
+            std::wcout << "Failed to get platform utilities!\n";
             return nullptr;
         }
 
@@ -40,7 +40,7 @@ namespace HarmonyLinkLib
     {
         if (!PlatformUtilities)
         {
-            std::cout << "Failed to get platform utilities!\n";
+            std::wcout << "Failed to get platform utilities!\n";
             return nullptr;
         }
 
@@ -60,7 +60,7 @@ namespace HarmonyLinkLib
 
         if (!PlatformUtilities)
         {
-            std::cout << "Failed to get platform utilities!\n";
+            std::wcout << "Failed to get platform utilities!\n";
             return nullptr;
         }
 
@@ -78,7 +78,7 @@ namespace HarmonyLinkLib
     {
         if (!PlatformUtilities)
         {
-            std::cout << "Failed to get platform utilities!\n";
+            std::wcout << "Failed to get platform utilities!\n";
             return nullptr;
         }
 

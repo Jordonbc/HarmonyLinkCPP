@@ -38,13 +38,13 @@ namespace HarmonyLinkLib
 
     void print() const
     {
-        printf("Name: '%s'\n", name.c_str());
-        printf("Version: '%d'\n", version);
-        printf("ID: '%s'\n", id.c_str());
-        printf("Version ID: '%s'\n", version_id.c_str());
-        printf("Version Codename: '%s'\n", version_codename.c_str());
-        printf("Pretty Name: '%s'\n", pretty_name.c_str());
-        printf("Variant ID: '%s'\n", variant_id.c_str());
+        wprintf(L"Name: '%hs'\n", name.c_str());
+        wprintf(L"Version: '%d'\n", version);
+        wprintf(L"ID: '%hs'\n", id.c_str());
+        wprintf(L"Version ID: '%hs'\n", version_id.c_str());
+        wprintf(L"Version Codename: '%hs'\n", version_codename.c_str());
+        wprintf(L"Pretty Name: '%hs'\n", pretty_name.c_str());
+        wprintf(L"Variant ID: '%hs'\n", variant_id.c_str());
     }
 };
 }
