@@ -5,9 +5,12 @@
 #include "Enums/EDevice.h"
 #include "Enums/EPlatform.h"
 
-// Struct to represent a specific device with both platform and device type
-struct FDevice : HarmonyLinkStruct
+namespace HarmonyLinkLib
 {
-    EPlatform platform;
-    EDevice device;
-};
+    // Struct to represent a specific device with both platform and device type
+    struct FDevice : HarmonyLinkStruct
+    {
+        EPlatform platform;
+        EDevice device;
+    };
+}

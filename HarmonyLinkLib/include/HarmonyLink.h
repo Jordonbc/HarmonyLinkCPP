@@ -11,7 +11,7 @@
 
 class IPlatformUtilities;
 
-namespace HarmonyLink
+namespace HarmonyLinkLib
 {
     extern "C" HARMONYLINKLIB_API bool get_is_wine();
 

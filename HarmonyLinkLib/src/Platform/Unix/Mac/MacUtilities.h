@@ -2,7 +2,10 @@
 
 #include "Platform/Unix/UnixUtilities.h"
 
-class MacUtitities : public UnixUtilities {
-public:
-    // Mac-specific overrides and additional functionality
-};
+namespace HarmonyLinkLib
+{
+    class MacUtitities : public UnixUtilities {
+    public:
+        // Mac-specific overrides and additional functionality
+    };
+}

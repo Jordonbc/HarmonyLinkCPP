@@ -13,7 +13,9 @@
 #include "Unix/Mac/MacUtilities.h"
 #endif
 
-static std::shared_ptr<IPlatformUtilities> INSTANCE = nullptr;
+namespace HarmonyLinkLib
+{
+    static std::shared_ptr<IPlatformUtilities> INSTANCE = nullptr;
 
 std::shared_ptr<IPlatformUtilities>& IPlatformUtilities::GetInstance()
 {
@@ -116,4 +118,5 @@ bool IPlatformUtilities::is_steam_deck(const FDevice& device) {
     printf("Device is not a Steam Deck.\n");
     
     return false;
+}
 }

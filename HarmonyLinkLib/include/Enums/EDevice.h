@@ -3,14 +3,17 @@
 #include <cstdint>
 
 // Enum class for representing different types of devices
-enum class EDevice : uint8_t
+namespace HarmonyLinkLib
 {
-    DESKTOP,
-    LAPTOP,
-    HANDHELD,
+    enum class EDevice : uint8_t
+    {
+        DESKTOP,
+        LAPTOP,
+        HANDHELD,
     
-    STEAM_DECK,
-    // ROG_ALLY
-    // AYONEO_SLIDE
-    // etc...
-};
+        STEAM_DECK,
+        // ROG_ALLY
+        // AYONEO_SLIDE
+        // etc...
+    };
+}

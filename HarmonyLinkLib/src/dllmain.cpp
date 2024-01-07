@@ -3,11 +3,14 @@
 #include <iostream>
 #include "Version.h"
 
-
-void HarmonyLinkInit()
+namespace HarmonyLinkLib
 {
-    std::cout << "HarmonyLink V" << version::ToString().c_str() << " Copyright (C) 2023 Jordon Brooks\n";
+    void HarmonyLinkInit()
+    {
+        std::cout << "HarmonyLink V" << version::ToString().c_str() << " Copyright (C) 2023 Jordon Brooks\n";
+    }
 }
+
 
 #if BUILD_WINDOWS
 #include <windows.h>
@@ -17,8 +20,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
     switch (fdwReason) {
     case DLL_PROCESS_ATTACH:
         // Code to run when the DLL is loaded
-            HarmonyLinkInit();
-            break;
+        HarmonyLinkLib::HarmonyLinkInit();
+        break;
     case DLL_THREAD_ATTACH:
         // Code to run when a thread is created during the DLL's lifetime
     case DLL_THREAD_DETACH:
@@ -36,7 +39,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
 __attribute__((constructor))
 static void onLibraryLoad() {
     // Code to run when the library is loaded
-    HarmonyLinkInit();
+    HarmonyLinkLib::HarmonyLinkInit();
 }
 
 __attribute__((destructor))

@@ -3,7 +3,9 @@
 #include "FString.h"
 #include "HarmonyLinkStruct.h"
 
-struct FOSVerInfo : HarmonyLinkStruct {
+namespace HarmonyLinkLib
+{
+    struct FOSVerInfo : HarmonyLinkStruct {
     // 'name' represents the operating system's name, e.g., "Ubuntu" in Linux or "Windows" in Windows systems.
     FString name;
     
@@ -45,3 +47,4 @@ struct FOSVerInfo : HarmonyLinkStruct {
         printf("Variant ID: '%s'\n", variant_id.c_str());
     }
 };
+}

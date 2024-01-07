@@ -5,7 +5,9 @@
 
 #include "Platform/WineUtilities.h"
 
-std::shared_ptr<FBattery> WindowsUtilities::get_battery_status()
+namespace HarmonyLinkLib
+{
+    std::shared_ptr<FBattery> WindowsUtilities::get_battery_status()
 {
     if (is_linux())
     {
@@ -75,4 +77,5 @@ std::shared_ptr<FOSVerInfo> WindowsUtilities::get_os_version()
     os_version.version = os_version_info.dwBuildNumber; // Build number as the version
 
     return std::make_shared<FOSVerInfo>(os_version);
+}
 }

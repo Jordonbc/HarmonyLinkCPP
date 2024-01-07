@@ -38,116 +38,119 @@
  *   for DLL usage.
  *
  */
-class HARMONYLINKLIB_API FString {
-public:
-    FString() : data_(new char[1]) {
-        data_[0] = '\0';
-    }
+ namespace HarmonyLinkLib
+ {
+    class HARMONYLINKLIB_API FString {
+    public:
+        FString() : data_(new char[1]) {
+            data_[0] = '\0';
+        }
 
-    FString(const char* str) {
-        const size_t len = strlen(str);
-        data_ = new char[len + 1];
-        memcpy(data_, str, len + 1);
-    }
+        FString(const char* str) {
+            const size_t len = strlen(str);
+            data_ = new char[len + 1];
+            memcpy(data_, str, len + 1);
+        }
 
-    // Copy constructor
-    FString(const FString& other) {
-        const size_t len = strlen(other.data_);
-        data_ = new char[len + 1];
-        memcpy(data_, other.data_, len + 1);
-    }
-
-    ~FString() {
-        delete[] data_;
-    }
-
-    // Copy assignment operator
-    FString& operator=(const FString& other) {
-        if (this != &other) {
-            delete[] data_;
+        // Copy constructor
+        FString(const FString& other) {
             const size_t len = strlen(other.data_);
             data_ = new char[len + 1];
             memcpy(data_, other.data_, len + 1);
         }
-        return *this;
-    }
 
-    // Concatenation operator for FString objects
-    FString operator+(const FString& other) const {
-        size_t thisLen = strlen(this->data_);
-        size_t otherLen = strlen(other.data_);
-        char* concatenated = new char[thisLen + otherLen + 1];
-
-        memcpy(concatenated, this->data_, thisLen);
-        memcpy(concatenated + thisLen, other.data_, otherLen + 1);
-
-        FString result(concatenated);
-        delete[] concatenated;
-        return result;
-    }
-
-    // Concatenation operator for const char* 
-    FString operator+(const char* other) const {
-        return *this + FString(other);
-    }
-
-    // Friend function to allow concatenation with const char* on the left-hand side
-    friend FString operator+(const char* lhs, const FString& rhs) {
-        return FString(lhs) + rhs;
-    }
-
-    // Move constructor
-    FString(FString&& other) noexcept : data_(other.data_) {
-        other.data_ = nullptr;
-    }
-
-    FString(const std::string& str) {
-        const size_t len = str.length();
-        data_ = new char[len + 1];
-        memcpy(data_, str.c_str(), len + 1);
-    }
-
-    // Move assignment operator
-    FString& operator=(FString&& other) noexcept {
-        if (this != &other) {
+        ~FString() {
             delete[] data_;
-            data_ = other.data_;
+        }
+
+        // Copy assignment operator
+        FString& operator=(const FString& other) {
+            if (this != &other) {
+                delete[] data_;
+                const size_t len = strlen(other.data_);
+                data_ = new char[len + 1];
+                memcpy(data_, other.data_, len + 1);
+            }
+            return *this;
+        }
+
+        // Concatenation operator for FString objects
+        FString operator+(const FString& other) const {
+            size_t thisLen = strlen(this->data_);
+            size_t otherLen = strlen(other.data_);
+            char* concatenated = new char[thisLen + otherLen + 1];
+
+            memcpy(concatenated, this->data_, thisLen);
+            memcpy(concatenated + thisLen, other.data_, otherLen + 1);
+
+            FString result(concatenated);
+            delete[] concatenated;
+            return result;
+        }
+
+        // Concatenation operator for const char* 
+        FString operator+(const char* other) const {
+            return *this + FString(other);
+        }
+
+        // Friend function to allow concatenation with const char* on the left-hand side
+        friend FString operator+(const char* lhs, const FString& rhs) {
+            return FString(lhs) + rhs;
+        }
+
+        // Move constructor
+        FString(FString&& other) noexcept : data_(other.data_) {
             other.data_ = nullptr;
         }
-        return *this;
-    }
 
-    bool operator==(const FString& other) const {
-        return strcmp(data_, other.data_) == 0;
-    }
-
-    // Method to get a lowercase version of the string
-    static FString to_lower(FString& from)
-    {
-        for (size_t i = 0; i < strlen(from.data_); ++i) {
-            from.data_[i] = static_cast<char>(std::tolower(static_cast<unsigned char>(from.data_[i])));
+        FString(const std::string& str) {
+            const size_t len = str.length();
+            data_ = new char[len + 1];
+            memcpy(data_, str.c_str(), len + 1);
         }
-        return from;
-    }
 
-    // Overloaded static method to handle const char*
-    static FString to_lower(const char* from) {
-        FString temp_string(from); // Create an FString from const char*
-        return to_lower(temp_string); // Reuse the existing to_lower method
-    }
+        // Move assignment operator
+        FString& operator=(FString&& other) noexcept {
+            if (this != &other) {
+                delete[] data_;
+                data_ = other.data_;
+                other.data_ = nullptr;
+            }
+            return *this;
+        }
 
-    const char* c_str() const {
-        return data_;
-    }
+        bool operator==(const FString& other) const {
+            return strcmp(data_, other.data_) == 0;
+        }
 
-private:
-    char* data_ = nullptr;
-};
+        // Method to get a lowercase version of the string
+        static FString to_lower(FString& from)
+        {
+            for (size_t i = 0; i < strlen(from.data_); ++i) {
+                from.data_[i] = static_cast<char>(std::tolower(static_cast<unsigned char>(from.data_[i])));
+            }
+            return from;
+        }
+
+        // Overloaded static method to handle const char*
+        static FString to_lower(const char* from) {
+            FString temp_string(from); // Create an FString from const char*
+            return to_lower(temp_string); // Reuse the existing to_lower method
+        }
+
+        const char* c_str() const {
+            return data_;
+        }
+
+    private:
+        char* data_ = nullptr;
+    };
+ }
 
 namespace std {
     template<>
-    struct hash<FString> {
-        size_t operator()(const FString& s) const {
+    struct hash<HarmonyLinkLib::FString> {
+        size_t operator()(const HarmonyLinkLib::FString& s) const {
             size_t hashValue = 5381;  // Starting value recommended by the djb2 algorithm
             const char* str = s.c_str();
 

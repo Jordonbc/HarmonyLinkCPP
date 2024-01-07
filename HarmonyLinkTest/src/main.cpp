@@ -77,14 +77,14 @@ int main()
 
     std::thread inputThread(checkForQuit);
 
-    const bool isWine = HarmonyLink::get_is_wine();
+    const bool isWine = HarmonyLinkLib::get_is_wine();
     const char* test = isWine ? "is" : "isn't";
 
-    const FOSVerInfo* os_info = HarmonyLink::get_os_version();
+    const HarmonyLinkLib::FOSVerInfo* os_info = HarmonyLinkLib::get_os_version();
 
-    const FDevice* device_info = HarmonyLink::get_device_info();
+    const HarmonyLinkLib::FDevice* device_info = HarmonyLinkLib::get_device_info();
 
-    const FCPUInfo* cpu_info = HarmonyLink::get_cpu_info();
+    const HarmonyLinkLib::FCPUInfo* cpu_info = HarmonyLinkLib::get_cpu_info();
 
     // This loop is to test how stable & expensive these functions are
     while (!quitFlag)
@@ -106,11 +106,11 @@ int main()
 
         if (device_info)
         {
-            printf("Is SteamDeck: %s\n", device_info->device == EDevice::STEAM_DECK ? "true" : "false");
+            printf("Is SteamDeck: %s\n", device_info->device == HarmonyLinkLib::EDevice::STEAM_DECK ? "true" : "false");
         }
 
         // we can't do this before the loop because we need updated values
-        if (const FBattery* battery = HarmonyLink::get_battery_status())
+        if (const HarmonyLinkLib::FBattery* battery = HarmonyLinkLib::get_battery_status())
         {
             battery->to_string();
             battery->free();
